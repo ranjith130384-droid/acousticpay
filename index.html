@@ -235,7 +235,114 @@
       font-size: 11px;
       color: var(--text-muted);
       text-transform: uppercase;
+    /* The Worldly Crisis & Manifesto Section */
+    .crisis-manifesto-box {
+      width: 100%;
+      background: radial-gradient(circle at top, rgba(239, 68, 68, 0.08) 0%, rgba(13, 21, 39, 0.95) 70%);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 16px;
+      padding: 36px 30px;
+      margin-bottom: 50px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+    .crisis-manifesto-box::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #ef4444, #f59e0b, #38bdf8);
+    }
+    .crisis-header {
+      text-align: center;
+      max-width: 850px;
+      margin: 0 auto 30px;
+    }
+    .crisis-tag {
+      font-size: 11px;
+      font-weight: 800;
+      color: #ef4444;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+    }
+    .crisis-main-quote {
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1.25;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .crisis-main-quote span {
+      color: #ef4444;
+    }
+    .crisis-lead {
+      font-size: 15px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+    .crisis-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 28px;
+    }
+    @media (max-width: 900px) {
+      .crisis-grid { grid-template-columns: 1fr; }
+    }
+    .crisis-item {
+      background: rgba(8, 13, 25, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 0.2s;
+    }
+    .crisis-item:hover {
+      border-color: rgba(239, 68, 68, 0.5);
+      transform: translateY(-2px);
+    }
+    .crisis-num {
+      font-size: 11px;
+      font-weight: 800;
+      color: #ef4444;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .crisis-item-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .crisis-item-desc {
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+    .manifesto-banner {
+      margin-top: 30px;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 12px;
+      padding: 22px 26px;
+      text-align: center;
+    }
+    .manifesto-banner-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #38bdf8;
+      text-transform: uppercase;
       letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .manifesto-banner-text {
+      font-size: 14px;
+      color: #f1f5f9;
+      line-height: 1.6;
+      max-width: 820px;
+      margin: 0 auto;
     }
 
     /* Patent Fortress Section */
@@ -813,6 +920,7 @@
         <span class="logo-badge">Dual Patent Pending</span>
       </a>
       <div class="nav-links">
+        <a href="#crisis" class="nav-link" style="color: #f87171;">The Crisis</a>
         <a href="#patents" class="nav-link">Patents</a>
         <a href="#sandbox" class="nav-link">Live Terminal</a>
         <a href="#architecture" class="nav-link">Architecture</a>
@@ -842,8 +950,8 @@
         </svg>
         Experience Interactive Live Sandbox
       </a>
-      <a href="#patents" class="btn-secondary">
-        Review Dual Patent Moat ↓
+      <a href="#crisis" class="btn-secondary" style="border-color: rgba(239, 68, 68, 0.4); color: #fca5a5;">
+        The Untold Global Crisis ↓
       </a>
     </div>
 
@@ -868,8 +976,61 @@
     </div>
   </header>
 
+  <!-- The Worldly Crisis & Manifesto Section -->
+  <section class="section-wrap" id="crisis" style="padding-top: 10px;">
+    <div class="crisis-manifesto-box">
+      <div class="crisis-header">
+        <div class="crisis-tag">⚠️ The Root Global Problem</div>
+        <h2 class="crisis-main-quote">
+          The Fragile Illusion of Modern Fintech: <br><span>Why Global Commerce Paralyzes at Zero Bars.</span>
+        </h2>
+        <p class="crisis-lead">
+          Big Tech designed contactless payments for the privileged 20% in wealthy capital cities with $1,200 iPhones and 5G cellular coverage. They built a fragile, exclusive walled garden—and left 4 billion human beings and critical public infrastructure vulnerable to total standstill.
+        </p>
+      </div>
+
+      <div class="crisis-grid">
+        <!-- Crisis 1 -->
+        <div class="crisis-item">
+          <div class="crisis-num">Worldly Crisis 01</div>
+          <h3 class="crisis-item-title">The 4-Billion Human Digital Exclusion</h3>
+          <p class="crisis-item-desc">
+            Apple Pay and Google Wallet demand specialized NFC microchips and active data plans. Over <strong>4 Billion human beings</strong> across emerging markets, rural regions, and developing nations carry low-cost phones without NFC hardware. When the world says "cash is dying", half the human race is quietly locked out of basic economic participation.
+          </p>
+        </div>
+
+        <!-- Crisis 2 -->
+        <div class="crisis-item">
+          <div class="crisis-num">Worldly Crisis 02</div>
+          <h3 class="crisis-item-title">The "Zero-Bar" Single Point of Failure</h3>
+          <p class="crisis-item-desc">
+            A hurricane floods a coastline. A grid blackout knocks out cell towers. A commuter descends 40 meters underground into a subway station. 80,000 citizens pack a stadium and crash the towers. <strong>The moment signal drops to zero bars, modern payments drop dead.</strong> People cannot buy water, medicine, or transit. A civilization whose lifeblood requires unbroken cellular internet is catastrophically fragile.
+          </p>
+        </div>
+
+        <!-- Crisis 3 -->
+        <div class="crisis-item">
+          <div class="crisis-num">Worldly Crisis 03</div>
+          <h3 class="crisis-item-title">The Multi-Billion Dollar "Hardware Tax"</h3>
+          <p class="crisis-item-desc">
+            Every year, transit authorities and governments bleed billions manufacturing disposable plastic RFID cards (Oyster, Nol, MetroCard) and maintaining delicate turnstile sensors. Millions of small merchants are coerced into leasing $300-$500 proprietary card terminals with 3% predatory network fees. It is an archaic, environmentally destructive hardware monopoly.
+          </p>
+        </div>
+      </div>
+
+      <!-- The Manifesto Resolution -->
+      <div class="manifesto-banner">
+        <div class="manifesto-banner-title">🔊 The AcousticPay Resolution: Why Sound?</div>
+        <p class="manifesto-banner-text">
+          We asked a radical question: <em>What if money didn't need the internet? What if digital value traveled on the one physical medium every device already possesses: <strong>Sound</strong>?</em><br>
+          Sound is universal. Sound doesn't need cell towers. Sound doesn't need WiFi. Sound doesn't need NFC chips. Sound doesn't care if you carry a $15 feature phone or a $1,500 flagship. By transforming acoustic waves into an encrypted cryptographic settlement rail, <strong>AcousticPay makes global commerce indestructible, universal, and free from the cellular grid.</strong>
+        </p>
+      </div>
+    </div>
+  </section>
+
   <!-- Patent Portfolio Section -->
-  <section class="section-wrap" id="patents">
+  <section class="section-wrap" id="patents" style="padding-top: 0;">
     <div class="section-header">
       <div class="section-tag">Global Intellectual Property Moat</div>
       <h2 class="section-title">United States Patent & Trademark Office Portfolio</h2>
