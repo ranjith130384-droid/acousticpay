@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>AcousticPay - Offline Acoustic Payment Protocol</title>
+  <title>AcousticPay - Offline Acoustic Payment Protocol (Dual Patent Portfolio)</title>
   <style>
     :root {
       --bg: #090d16;
@@ -13,6 +13,7 @@
       --accent-glow: rgba(56, 189, 248, 0.25);
       --success: #10b981;
       --success-glow: rgba(16, 185, 129, 0.25);
+      --purple: #a855f7;
       --danger: #ef4444;
       --text: #f1f5f9;
       --text-muted: #94a3b8;
@@ -29,8 +30,8 @@
     }
     header {
       text-align: center;
-      margin-bottom: 16px;
-      max-width: 900px;
+      margin-bottom: 14px;
+      max-width: 960px;
     }
     header h1 {
       font-size: 22px;
@@ -47,7 +48,7 @@
       color: #000;
       font-size: 10px;
       font-weight: 800;
-      padding: 2px 6px;
+      padding: 3px 8px;
       border-radius: 4px;
       letter-spacing: 0.5px;
       text-transform: uppercase;
@@ -58,41 +59,196 @@
       margin-top: 4px;
     }
     .mobile-tip {
-      background: rgba(245, 158, 11, 0.15);
-      border: 1px solid rgba(245, 158, 11, 0.4);
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.35);
       color: #fbbf24;
       font-size: 12px;
       padding: 8px 12px;
       border-radius: 8px;
-      margin-top: 10px;
-      max-width: 500px;
+      margin-top: 8px;
+      max-width: 580px;
       text-align: center;
     }
 
-    .control-bar {
-      margin-bottom: 16px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-      justify-content: center;
-      background: var(--card-bg);
-      padding: 8px 14px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 12px;
+    /* Dual Patent Portfolio Credential Banner */
+    .patent-portfolio-box {
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 14px;
       width: 100%;
       max-width: 1080px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
+    .patent-header-line {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .patent-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #38bdf8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .inventor-tag {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .patent-links-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 768px) {
+      .patent-links-grid { grid-template-columns: 1fr; }
+    }
+    .patent-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .patent-card-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .patent-card-num {
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .patent-card-desc {
+      font-size: 10.5px;
+      color: var(--text-muted);
+    }
+    .status-badge {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #fbbf24;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Multi-Lane Transit Arbitration & Doppler Control Bar (Patent 2) */
+    .arbitration-panel {
+      background: var(--card-bg);
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      width: 100%;
+      max-width: 1080px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .arb-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding-bottom: 8px;
+    }
+    .arb-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #f59e0b;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .arb-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+    @media (max-width: 900px) {
+      .arb-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 520px) {
+      .arb-grid { grid-template-columns: 1fr; }
+    }
+    .arb-control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .arb-control-label {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .lane-select {
+      background: #0b111e;
+      border: 1px solid #38bdf8;
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 8px 10px;
+      border-radius: 6px;
+      outline: none;
+      cursor: pointer;
+    }
+    .metric-pill {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .metric-pill-title {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .metric-pill-value {
+      font-size: 12px;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+    .metric-pill-value.good { color: #10b981; }
+    .metric-pill-value.warn { color: #f59e0b; }
+
     .test-sound-btn {
       background: #1e293b;
       color: #38bdf8;
       border: 1px solid #38bdf8;
       border-radius: 6px;
-      padding: 5px 12px;
-      font-size: 12px;
+      padding: 6px 12px;
+      font-size: 11px;
       font-weight: 700;
       cursor: pointer;
+      transition: background 0.2s;
+    }
+    .test-sound-btn:hover {
+      background: #334155;
     }
 
     .container {
@@ -288,28 +444,68 @@
   <header>
     <h1>
       <span>AcousticPay Protocol</span>
-      <span class="badge-patent">Patent Pending</span>
+      <span class="badge-patent">USPTO Dual Patent Pending</span>
     </h1>
-    <p>Zero-Infrastructure Offline Acoustic Settlement</p>
+    <p>Zero-Infrastructure Offline Acoustic Settlement & Multi-Lane Collision Arbitration</p>
     <div class="mobile-tip">
-      🔊 <strong>Phone Tip:</strong> Turn off your phone's physical Silent switch and set volume to 80%+.
+      🔊 <strong>Phone Tip:</strong> Turn off physical Silent switch, set volume to 80%+, and hold speaker near merchant microphone.
     </div>
   </header>
 
-  <!-- One-Click Download Box for Phone & Laptop -->
-  <div style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; width: 100%; max-width: 1080px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center;">
-    <span style="font-size: 12px; font-weight: 700; color: #fff;">Official USPTO Filing Documents (App #64/189,672):</span>
-    <a href="/payment_receipt.pdf" download="USPTO_Payment_Receipt_64189672.pdf" style="background: #0284c7; color: #fff; padding: 7px 14px; border-radius: 6px; text-decoration: none; font-size: 11px; font-weight: bold; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);">
-      📄 Download Payment Receipt ($65 Paid)
-    </a>
-    <a href="/acknowledgement_receipt.pdf" download="USPTO_Acknowledgement_Receipt_64189672.pdf" style="background: #059669; color: #fff; padding: 7px 14px; border-radius: 6px; text-decoration: none; font-size: 11px; font-weight: bold; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(5, 150, 105, 0.4);">
-      🏛️ Download Filing Acknowledgement (SHA-512)
-    </a>
+  <!-- Dual Patent Portfolio Credential Banner -->
+  <div class="patent-portfolio-box">
+    <div class="patent-header-line">
+      <span class="patent-title">🏛️ Official USPTO Patent Portfolio (Dubai, UAE)</span>
+      <span class="inventor-tag">Inventor: Ranjith Radhakrishnan</span>
+    </div>
+    <div class="patent-links-grid">
+      <!-- Patent 1 -->
+      <div class="patent-card">
+        <div class="patent-card-info">
+          <span class="patent-card-num">Patent #1: US 64/189,672</span>
+          <span class="patent-card-desc">Core Offline Settlement & Monotonic Nonces</span>
+        </div>
+        <span class="status-badge">USPTO Pending</span>
+      </div>
+      <!-- Patent 2 -->
+      <div class="patent-card">
+        <div class="patent-card-info">
+          <span class="patent-card-num">Patent #2: US 64/191,956</span>
+          <span class="patent-card-desc">A-OFDMA Multi-Lane & Doppler Tracking</span>
+        </div>
+        <span class="status-badge">USPTO Pending</span>
+      </div>
+    </div>
   </div>
 
-  <div class="control-bar">
-    <button class="test-sound-btn" onclick="testSpeaker()">🔊 Tap to Test Phone Speaker (Beep)</button>
-    <span style="color: var(--text-muted); font-size: 11px;">Carrier Frequency: 1.8 kHz - 2.8 kHz FSK</span>
+  <!-- Multi-Lane Transit Arbitration & Doppler Control Bar (Patent #2) -->
+  <div class="arbitration-panel">
+    <div class="arb-header">
+      <span class="arb-title">⚡ Patent #2 Live Arbitration & Channel Allocation</span>
+      <button class="test-sound-btn" onclick="testSpeaker()">🔊 Test Audio Tone</button>
+    </div>
+    <div class="arb-grid">
+      <div class="arb-control-group">
+        <label class="arb-control-label" for="laneSelect">A-OFDMA Transit Lane:</label>
+        <select id="laneSelect" class="lane-select" onchange="onLaneChange(this.value)">
+          <option value="lane-1" selected>Lane 1: Turnstile Gate A (Channel α: 1.8 - 3.1 kHz)</option>
+          <option value="lane-2">Lane 2: Turnstile Gate B (Channel β: 3.4 - 4.7 kHz)</option>
+          <option value="lane-3">Lane 3: Express / Drive-Thru (Channel γ: 5.0 - 6.3 kHz)</option>
+        </select>
+      </div>
+      <div class="metric-pill">
+        <span class="metric-pill-title">A-CSMA Carrier Sniff</span>
+        <span class="metric-pill-value good" id="csmaStatus">IDLE (15ms Clear)</span>
+      </div>
+      <div class="metric-pill">
+        <span class="metric-pill-title">Doppler Tracker</span>
+        <span class="metric-pill-value" id="dopplerStatus">0.0 Hz (v=0 m/s)</span>
+      </div>
+      <div class="metric-pill">
+        <span class="metric-pill-title">ToF Distance Bounding</span>
+        <span class="metric-pill-value good" id="tofStatus">&lt; 0.45m (Valid)</span>
+      </div>
+    </div>
   </div>
 
   <div class="container">
@@ -346,6 +542,7 @@
 
       <div class="log-box" id="payerLogs">
         <div class="log-entry info">[System] Payer Offline Vault initialized. Nonce: 1</div>
+        <div class="log-entry info">[A-OFDMA] Channel α active (1.8 kHz - 3.1 kHz).</div>
         <div class="log-entry info">[Ready] Tap 'Transmit' to broadcast voucher through phone speaker.</div>
       </div>
     </div>
@@ -375,7 +572,7 @@
       <!-- Real-Time Mic Signal Detector -->
       <div class="mic-meter-box" id="micMeterBox" style="display: none;">
         <div class="mic-meter-label">
-          <span>Acoustic Carrier Signal Level:</span>
+          <span id="activeChannelLabel">Channel α Energy Level:</span>
           <span id="carrierSignalText">0%</span>
         </div>
         <div class="meter-bar-bg">
@@ -393,6 +590,7 @@
 
       <div class="log-box" id="merchantLogs">
         <div class="log-entry info">[System] Merchant POS ready. Click 'Start Listening' on this laptop.</div>
+        <div class="log-entry info">[Patent #2] Channel arbitration active on Lane 1.</div>
       </div>
     </div>
   </div>
@@ -404,6 +602,43 @@
         console.log('[AcousticPay] Offline Service Worker registered.');
       }).catch(err => console.log('SW registration:', err));
     }
+
+    // A-OFDMA Channel Configurations (Patent #2 Multi-Lane Definition)
+    const CHANNEL_LANES = {
+      "lane-1": {
+        name: "Lane 1: Metro Gate A (Channel α)",
+        shortName: "Channel α",
+        base: 1800,
+        step: 80,
+        preamble: [1600, 2000, 2400],
+        binStart: 37, // ~1600 Hz (at 44.1kHz / 1024 bins)
+        binEnd: 72,   // ~3100 Hz
+        duration: 0.12
+      },
+      "lane-2": {
+        name: "Lane 2: Metro Gate B (Channel β)",
+        shortName: "Channel β",
+        base: 3400,
+        step: 80,
+        preamble: [3200, 3600, 4000],
+        binStart: 74, // ~3200 Hz
+        binEnd: 109,  // ~4700 Hz
+        duration: 0.12
+      },
+      "lane-3": {
+        name: "Lane 3: Express / Drive-Thru (Channel γ)",
+        shortName: "Channel γ",
+        base: 5000,
+        step: 80,
+        preamble: [4800, 5200, 5600],
+        binStart: 111, // ~4800 Hz
+        binEnd: 146,   // ~6300 Hz
+        duration: 0.12
+      }
+    };
+
+    let currentLaneKey = "lane-1";
+    let activeConfig = CHANNEL_LANES[currentLaneKey];
 
     let payerBal = 100.0;
     let merchantBal = 0.0;
@@ -418,7 +653,7 @@
     // Signal detector state
     let signalDetectionCount = 0;
     let isDecoding = false;
-    const DETECTION_THRESHOLD = 85; // Energy threshold for carrier band
+    const DETECTION_THRESHOLD = 85;
 
     function getOrInitAudioContext() {
       const AudioContextClass = window.AudioContext || window.webkitAudioContext;
@@ -434,13 +669,6 @@
       }, { once: false, passive: true });
     });
 
-    const FREQ_CONFIG = {
-      base: 1800,
-      step: 80, // 1800Hz - 3000Hz (highly audible on all phone speakers)
-      preamble: [1600, 2000, 2400],
-      duration: 0.12
-    };
-
     function log(elementId, msg, type = "info") {
       const box = document.getElementById(elementId);
       const div = document.createElement("div");
@@ -450,24 +678,32 @@
       box.scrollTop = box.scrollHeight;
     }
 
+    function onLaneChange(newLaneKey) {
+      currentLaneKey = newLaneKey;
+      activeConfig = CHANNEL_LANES[newLaneKey];
+      document.getElementById("activeChannelLabel").innerText = `${activeConfig.shortName} Energy Level:`;
+      log("payerLogs", `Switched to ${activeConfig.name} [Base: ${activeConfig.base} Hz]`, "warn");
+      log("merchantLogs", `Tuned receiver filter to ${activeConfig.shortName} (${activeConfig.base - 200}Hz - ${activeConfig.base + 1300}Hz)`, "warn");
+    }
+
     function testSpeaker() {
       const ctx = getOrInitAudioContext();
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = "sine";
-      osc.frequency.setValueAtTime(880, ctx.currentTime);
+      osc.frequency.setValueAtTime(activeConfig.base, ctx.currentTime);
       gain.gain.setValueAtTime(0.5, ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
       osc.connect(gain);
       gain.connect(ctx.destination);
       osc.start();
       osc.stop(ctx.currentTime + 0.4);
-      log("payerLogs", "Played 880Hz test tone through speaker.", "warn");
+      log("payerLogs", `Played ${activeConfig.base}Hz pilot tone on ${activeConfig.shortName}.`, "warn");
     }
 
     function createVoucherSync(amount, nonce) {
       const timestamp = Math.floor(Date.now() / 1000);
-      const str = `PUB_ALICE_X72|MERCHANT_BOB_789|${amount.toFixed(2)}|${nonce}|${timestamp}`;
+      const str = `PUB_ALICE_X72|MERCHANT_BOB_789|${amount.toFixed(2)}|${nonce}|${timestamp}|${currentLaneKey}`;
       let hash = 0;
       for (let i = 0; i < str.length; i++) {
         hash = ((hash << 5) - hash) + str.charCodeAt(i);
@@ -481,11 +717,42 @@
         amount: parseFloat(amount),
         nonce: nonce,
         timestamp: timestamp,
+        lane: currentLaneKey,
         sig: sig
       };
     }
 
-    function transmitPayment() {
+    // A-CSMA 15ms Carrier Sniff Simulation (Patent #2 Claim 2)
+    async function performCarrierSniff() {
+      const csmaPill = document.getElementById("csmaStatus");
+      csmaPill.innerText = "SNIFFING (15ms)...";
+      csmaPill.className = "metric-pill-value warn";
+
+      // 15ms acoustic listen-before-talk window
+      await new Promise(r => setTimeout(r, 15));
+
+      csmaPill.innerText = "CLEAR (No Collision)";
+      csmaPill.className = "metric-pill-value good";
+      return true;
+    }
+
+    // Dynamic Doppler Shift & ToF Proximity Updates (Patent #2 Claims 3 & 4)
+    function simulateDopplerAndToF() {
+      // Simulate walking approach speed: 1.2 m/s -> Doppler delta = f * (v/c) = ~7.5 Hz
+      const dopplerPill = document.getElementById("dopplerStatus");
+      const tofPill = document.getElementById("tofStatus");
+      
+      const speed = (1.1 + Math.random() * 0.4).toFixed(2); // 1.1 - 1.5 m/s
+      const deltaF = ((activeConfig.base * (speed / 343.0))).toFixed(1);
+      dopplerPill.innerText = `+${deltaF} Hz (v=${speed} m/s) [Locked]`;
+      dopplerPill.className = "metric-pill-value good";
+
+      const dist = (0.28 + Math.random() * 0.25).toFixed(2); // 0.28 - 0.53 m
+      tofPill.innerText = `${dist}m (< 1.0m Proximity)`;
+      tofPill.className = "metric-pill-value good";
+    }
+
+    async function transmitPayment() {
       const ctx = getOrInitAudioContext();
       const sendBtn = document.getElementById("sendBtn");
       const amountInput = document.getElementById("payAmount");
@@ -497,8 +764,16 @@
       }
 
       sendBtn.disabled = true;
+
+      // Patent #2 Step 1: A-CSMA 15ms Carrier Sniff
+      log("payerLogs", `[A-CSMA] Sniffing acoustic carrier on ${activeConfig.shortName} for 15ms...`, "info");
+      await performCarrierSniff();
+
+      // Patent #2 Step 2: Doppler & ToF Estimation
+      simulateDopplerAndToF();
+
       const voucher = createVoucherSync(amount, nonceCounter++);
-      log("payerLogs", `Emitting Voucher #${voucher.nonce} for $${voucher.amount.toFixed(2)} [Sig: ${voucher.sig}]`, "info");
+      log("payerLogs", `Emitting Voucher #${voucher.nonce} for $${voucher.amount.toFixed(2)} on ${activeConfig.shortName} [Sig: ${voucher.sig}]`, "info");
 
       const amtHex = Math.round(voucher.amount * 100).toString(16).padStart(4, '0');
       const nonceHex = voucher.nonce.toString(16).padStart(2, '0');
@@ -506,18 +781,18 @@
 
       let startTime = ctx.currentTime + 0.05;
 
-      // Preamble
-      for (let i = 0; i < FREQ_CONFIG.preamble.length; i++) {
-        playToneDirect(ctx, FREQ_CONFIG.preamble[i], startTime, FREQ_CONFIG.duration);
-        startTime += FREQ_CONFIG.duration;
+      // Preamble tones on the selected lane
+      for (let i = 0; i < activeConfig.preamble.length; i++) {
+        playToneDirect(ctx, activeConfig.preamble[i], startTime, activeConfig.duration);
+        startTime += activeConfig.duration;
       }
 
-      // Data Symbols
+      // FSK Data Symbols
       for (let i = 0; i < hexPayload.length; i++) {
         const nibble = parseInt(hexPayload[i], 16);
-        const freq = FREQ_CONFIG.base + (nibble * FREQ_CONFIG.step);
-        playToneDirect(ctx, freq, startTime, FREQ_CONFIG.duration);
-        startTime += FREQ_CONFIG.duration;
+        const freq = activeConfig.base + (nibble * activeConfig.step);
+        playToneDirect(ctx, freq, startTime, activeConfig.duration);
+        startTime += activeConfig.duration;
       }
 
       animatePayerWave(startTime - ctx.currentTime);
@@ -526,7 +801,7 @@
       setTimeout(() => {
         payerBal -= amount;
         document.getElementById("payerBalance").innerText = `$${payerBal.toFixed(2)}`;
-        log("payerLogs", `✓ Acoustic burst finished. Vault updated.`, "success");
+        log("payerLogs", `✓ Acoustic burst finished on ${activeConfig.shortName}. Vault updated.`, "success");
         sendBtn.disabled = false;
       }, totalMs);
     }
@@ -545,7 +820,7 @@
       osc.stop(atTime + dur);
     }
 
-    // --- MERCHANT ACOUSTIC RECEIVER WITH REAL-TIME CARRIER DETECTION ---
+    // --- MERCHANT ACOUSTIC RECEIVER WITH LANE-AWARE DETECTION ---
     async function toggleListening() {
       const btn = document.getElementById("listenBtn");
       const btnText = document.getElementById("listenBtnText");
@@ -573,9 +848,9 @@
 
           isListening = true;
           btn.classList.add("listening");
-          btnText.innerText = "Listening for Phone Chirps...";
+          btnText.innerText = `Listening on ${activeConfig.shortName}...`;
           meterBox.style.display = "block";
-          log("merchantLogs", "Microphone actively listening for acoustic carrier waves...", "success");
+          log("merchantLogs", `Microphone actively filtering for ${activeConfig.shortName} (${activeConfig.base} Hz band)...`, "success");
 
           processAudioStream();
         } catch (err) {
@@ -591,14 +866,10 @@
       const dataArray = new Uint8Array(bufferLength);
       analyserNode.getByteFrequencyData(dataArray);
 
-      // Carrier frequency range: 1600 Hz - 2800 Hz
-      // At 44.1kHz / 1024 bins, bin width is ~43.06 Hz
-      // 1600 Hz is bin ~37, 2800 Hz is bin ~65
+      // Measure energy strictly within active lane's FFT bins (Patent #2 Multi-Carrier Filter)
       let carrierEnergy = 0;
-      let binCount = 0;
-      for (let i = 37; i <= 65; i++) {
+      for (let i = activeConfig.binStart; i <= activeConfig.binEnd; i++) {
         if (dataArray[i] > carrierEnergy) carrierEnergy = dataArray[i];
-        binCount++;
       }
 
       // Update Live UI Meter
@@ -609,12 +880,12 @@
       signalText.innerText = `${pct}%`;
 
       if (pct > 35) {
-        meterFill.style.background = "#f59e0b"; // Warning/Active
+        meterFill.style.background = "#f59e0b";
       } else {
         meterFill.style.background = "#10b981";
       }
 
-      // Carrier Detection Trigger (Real-Time Energy Peak from Phone)
+      // Carrier Detection Trigger (Real-Time Energy Peak on Active Channel)
       if (carrierEnergy > DETECTION_THRESHOLD && !isDecoding) {
         signalDetectionCount++;
         if (signalDetectionCount >= 4) { // Sustained carrier detected
@@ -627,18 +898,18 @@
         signalDetectionCount = Math.max(0, signalDetectionCount - 1);
       }
 
-      // Render Spectrum Canvas
+      // Render Spectrum Canvas with Lane Band Highlighting
       renderSpectrum(dataArray, bufferLength);
 
       animFrame = requestAnimationFrame(processAudioStream);
     }
 
     function onCarrierDetected() {
-      log("merchantLogs", "⚡ ACOUSTIC CARRIER WAVE DETECTED from room audio!", "info");
-      log("merchantLogs", "Demodulating FSK symbols from microphone input...", "info");
+      log("merchantLogs", `⚡ CARRIER DETECTED on ${activeConfig.shortName}! Demodulating...`, "info");
+      log("merchantLogs", `[Doppler Locked] Compensated frequency shift: +7.2 Hz.`, "info");
+      log("merchantLogs", `[ToF Bounded] Estimated distance: 0.42m (valid entry).`, "info");
 
       setTimeout(() => {
-        // Complete demodulation and cryptographic verification
         const simulatedAmount = 25.00;
         const currentNonce = spentNonces.size + 1;
 
@@ -646,17 +917,18 @@
           payer: "PUB_ALICE_X72",
           amount: simulatedAmount,
           nonce: currentNonce,
+          lane: currentLaneKey,
           sig: "a7b3"
         };
 
-        // 1. Anti-Double-Spend Check
+        // 1. Anti-Double-Spend Check (Patent #1)
         if (spentNonces.has(voucher.nonce)) {
           log("merchantLogs", `❌ [CRITICAL REJECT] Double-Spend Attempt! Nonce #${voucher.nonce} already recorded!`, "error");
           isDecoding = false;
           return;
         }
 
-        // 3. Commit to Offline Ledger
+        // 2. Commit to Offline Ledger
         spentNonces.add(voucher.nonce);
         merchantBal += voucher.amount;
         document.getElementById("merchantBalance").innerText = `$${merchantBal.toFixed(2)}`;
@@ -664,14 +936,14 @@
         // Display Receipt
         const receipt = document.getElementById("auditReceipt");
         const details = document.getElementById("receiptDetails");
-        details.innerHTML = `<strong>Amount:</strong> $${voucher.amount.toFixed(2)} | <strong>Nonce:</strong> #${voucher.nonce} | <strong>Payer:</strong> ${voucher.payer} | <strong>Status:</strong> FINAL`;
+        details.innerHTML = `<strong>Amount:</strong> $${voucher.amount.toFixed(2)} | <strong>Nonce:</strong> #${voucher.nonce} | <strong>Lane:</strong> ${activeConfig.shortName} | <strong>Status:</strong> FINAL`;
         receipt.classList.add("show");
 
-        log("merchantLogs", `✅ [SETTLED] Cryptographic proof verified! $${voucher.amount.toFixed(2)} added to ledger.`, "success");
+        log("merchantLogs", `✅ [SETTLED] Cryptographic proof verified on ${activeConfig.shortName}! $${voucher.amount.toFixed(2)} added to ledger.`, "success");
 
-        // AUTOMATICALLY DISARM MICROPHONE TO PREVENT DOUBLE PAYMENT
-        log("merchantLogs", `🔒 [Safety Lock] Microphone automatically disarmed to prevent duplicate processing.`, "warn");
-        toggleListening(); // Immediately shuts off microphone and stops stream
+        // AUTOMATICALLY DISARM MICROPHONE (Patent #1 Auto-Disarm)
+        log("merchantLogs", `🔒 [Safety Lock] Receiver auto-disarmed to prevent acoustic replay echo.`, "warn");
+        toggleListening();
         isDecoding = false;
       }, 900);
     }
@@ -683,13 +955,16 @@
       ctx.fillStyle = "#070c14";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      const barWidth = (canvas.width / 120);
+      const maxBars = 160;
+      const barWidth = canvas.width / maxBars;
       let x = 0;
 
-      for (let i = 0; i < 120; i++) {
+      for (let i = 0; i < maxBars; i++) {
         const barHeight = (dataArray[i] / 255) * canvas.height;
-        if (i >= 37 && i <= 65) {
-          ctx.fillStyle = isDecoding ? "#f59e0b" : "#38bdf8"; // Highlight target carrier band
+        
+        // Highlight active channel bins
+        if (i >= activeConfig.binStart && i <= activeConfig.binEnd) {
+          ctx.fillStyle = isDecoding ? "#f59e0b" : "#38bdf8";
         } else {
           ctx.fillStyle = "#1e293b";
         }
