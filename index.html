@@ -235,6 +235,9 @@
       font-size: 11px;
       color: var(--text-muted);
       text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
     /* The Worldly Crisis & Manifesto Section */
     .crisis-manifesto-box {
       width: 100%;
@@ -1351,7 +1354,7 @@
   <!-- Complete Web Audio API & Protocol State Machine Engine -->
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js').then(() => {
+      navigator.serviceWorker.register('/sw.js?v=3').then(() => {
         console.log('[AcousticPay] Service Worker active.');
       }).catch(err => console.log('SW registration:', err));
     }
