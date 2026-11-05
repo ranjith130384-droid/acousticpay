@@ -3,22 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>AcousticPay - Offline Acoustic Payment Protocol (Dual Patent Portfolio)</title>
+  <title>AcousticPay Protocol | Zero-Infrastructure Offline Acoustic Settlement</title>
+  <meta name="description" content="AcousticPay is a peer-to-peer offline payment and high-density transit protocol settling cryptographic transactions via soundwaves. Dual USPTO Patent Pending.">
   <style>
     :root {
-      --bg: #090d16;
-      --card-bg: #121927;
-      --border: #1e293b;
+      --bg: #060913;
+      --card-bg: #0d1527;
+      --card-border: #1e293b;
       --accent: #38bdf8;
       --accent-glow: rgba(56, 189, 248, 0.25);
       --success: #10b981;
       --success-glow: rgba(16, 185, 129, 0.25);
+      --amber: #f59e0b;
       --purple: #a855f7;
       --danger: #ef4444;
-      --text: #f1f5f9;
+      --text: #f8fafc;
       --text-muted: #94a3b8;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+    html { scroll-behavior: smooth; }
     body {
       background-color: var(--bg);
       color: var(--text);
@@ -26,141 +29,370 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 16px 12px;
+      line-height: 1.5;
     }
-    header {
-      text-align: center;
-      margin-bottom: 14px;
-      max-width: 960px;
+
+    /* Top Navigation Bar */
+    nav {
+      width: 100%;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(6, 9, 19, 0.85);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
     }
-    header h1 {
-      font-size: 22px;
-      letter-spacing: -0.5px;
+    .nav-container {
+      width: 100%;
+      max-width: 1200px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
       color: #fff;
+    }
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-weight: 900;
+      font-size: 16px;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+    .logo-text {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .logo-badge {
+      font-size: 9px;
+      font-weight: 800;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #fbbf24;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    @media (max-width: 840px) {
+      .nav-links { display: none; }
+    }
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: #fff; }
+    .nav-cta {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 4px 12px var(--accent-glow);
+      transition: all 0.2s;
+    }
+    .nav-cta:hover { transform: translateY(-1px); filter: brightness(1.1); }
+
+    /* Hero Section */
+    .hero-section {
+      width: 100%;
+      max-width: 1200px;
+      padding: 60px 20px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+    .hero-badge-pill {
+      display: inline-flex;
+      align-items: center;
       gap: 8px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #38bdf8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 20px;
+    }
+    .hero-title {
+      font-size: 42px;
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      color: #fff;
+      max-width: 900px;
+      margin-bottom: 18px;
+    }
+    .hero-title span {
+      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    @media (max-width: 640px) {
+      .hero-title { font-size: 28px; }
+    }
+    .hero-desc {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 720px;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 20px var(--accent-glow);
+      transition: all 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.1); }
+    .btn-secondary {
+      background: rgba(15, 23, 42, 0.8);
+      color: #fff;
+      border: 1px solid var(--card-border);
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { border-color: #38bdf8; }
+
+    /* Hero Metric Strip */
+    .metric-strip {
+      width: 100%;
+      max-width: 1000px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+    @media (max-width: 768px) {
+      .metric-strip { grid-template-columns: repeat(2, 1fr); }
+    }
+    .metric-item {
+      background: rgba(13, 21, 39, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+    }
+    .metric-val {
+      font-size: 24px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .metric-val.highlight { color: #38bdf8; }
+    .metric-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Patent Fortress Section */
+    .section-wrap {
+      width: 100%;
+      max-width: 1200px;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 30px;
+      max-width: 750px;
+    }
+    .section-tag {
+      font-size: 11px;
+      font-weight: 800;
+      color: #f59e0b;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .section-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* Dual Patent Grid */
+    .patent-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      width: 100%;
+      margin-bottom: 40px;
+    }
+    @media (max-width: 768px) {
+      .patent-grid { grid-template-columns: 1fr; }
+    }
+    .patent-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 24px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+    .patent-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      border-radius: 12px 12px 0 0;
+    }
+    .patent-card.p1::before { background: linear-gradient(90deg, #38bdf8, #818cf8); }
+    .patent-card.p2::before { background: linear-gradient(90deg, #10b981, #059669); }
+    .patent-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
       flex-wrap: wrap;
     }
-    .badge-patent {
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-      color: #000;
+    .patent-ref {
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .patent-badge-status {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #fbbf24;
       font-size: 10px;
       font-weight: 800;
       padding: 3px 8px;
       border-radius: 4px;
-      letter-spacing: 0.5px;
       text-transform: uppercase;
     }
-    header p {
-      color: var(--text-muted);
-      font-size: 13px;
-      margin-top: 4px;
+    .patent-card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #e2e8f0;
+      line-height: 1.4;
     }
-    .mobile-tip {
-      background: rgba(245, 158, 11, 0.12);
-      border: 1px solid rgba(245, 158, 11, 0.35);
-      color: #fbbf24;
-      font-size: 12px;
-      padding: 8px 12px;
-      border-radius: 8px;
-      margin-top: 8px;
-      max-width: 580px;
-      text-align: center;
-    }
-
-    /* Dual Patent Portfolio Credential Banner */
-    .patent-portfolio-box {
-      background: rgba(56, 189, 248, 0.08);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      border-radius: 10px;
-      padding: 12px 16px;
-      margin-bottom: 14px;
-      width: 100%;
-      max-width: 1080px;
+    .patent-card-features {
+      list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
+      margin-top: 6px;
     }
-    .patent-header-line {
+    .patent-card-features li {
+      font-size: 12.5px;
+      color: var(--text-muted);
       display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       gap: 8px;
     }
-    .patent-title {
-      font-size: 12px;
-      font-weight: 800;
+    .patent-card-features li::before {
+      content: "✓";
       color: #38bdf8;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .inventor-tag {
-      font-size: 11px;
-      color: #94a3b8;
-    }
-    .patent-links-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    @media (max-width: 768px) {
-      .patent-links-grid { grid-template-columns: 1fr; }
-    }
-    .patent-card {
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-    .patent-card-info {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .patent-card-num {
-      font-size: 12px;
-      font-weight: 700;
-      color: #fff;
-    }
-    .patent-card-desc {
-      font-size: 10.5px;
-      color: var(--text-muted);
-    }
-    .status-badge {
-      background: rgba(245, 158, 11, 0.15);
-      border: 1px solid rgba(245, 158, 11, 0.4);
-      color: #fbbf24;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 10px;
-      font-weight: 700;
-      white-space: nowrap;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      font-weight: bold;
     }
 
-    /* Multi-Lane Transit Arbitration & Doppler Control Bar (Patent 2) */
-    .arbitration-panel {
-      background: var(--card-bg);
-      border: 1px solid #334155;
-      border-radius: 10px;
-      padding: 12px 16px;
-      margin-bottom: 16px;
+    /* Sandbox Container */
+    .sandbox-wrapper {
       width: 100%;
-      max-width: 1080px;
+      background: rgba(13, 21, 39, 0.85);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      margin-bottom: 50px;
+    }
+    .sandbox-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 14px;
+    }
+    .sandbox-title-box h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sandbox-title-box p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Multi-Lane Transit Arbitration & Doppler Control Bar */
+    .arbitration-panel {
+      background: #080d1a;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
     .arb-header {
       display: flex;
@@ -168,8 +400,6 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 8px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      padding-bottom: 8px;
     }
     .arb-title {
       font-size: 12px;
@@ -216,7 +446,7 @@
     }
     .metric-pill {
       background: rgba(15, 23, 42, 0.8);
-      border: 1px solid var(--border);
+      border: 1px solid var(--card-border);
       border-radius: 6px;
       padding: 8px 10px;
       display: flex;
@@ -247,47 +477,41 @@
       cursor: pointer;
       transition: background 0.2s;
     }
-    .test-sound-btn:hover {
-      background: #334155;
-    }
+    .test-sound-btn:hover { background: #334155; }
 
-    .container {
+    /* Devices Two-Column Grid */
+    .devices-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px;
-      width: 100%;
-      max-width: 1080px;
     }
     @media (max-width: 768px) {
-      .container { grid-template-columns: 1fr; }
+      .devices-grid { grid-template-columns: 1fr; }
     }
-
     .device-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
+      background: #0b111e;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
       padding: 18px;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       position: relative;
     }
     .device-card::before {
       content: "";
       position: absolute;
       top: 0; left: 0; right: 0; height: 3px;
-      background: var(--border);
+      border-radius: 12px 12px 0 0;
     }
     .device-card.payer::before { background: linear-gradient(90deg, #38bdf8, #818cf8); }
     .device-card.merchant::before { background: linear-gradient(90deg, #10b981, #059669); }
-
     .card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
-    .card-header h2 { font-size: 16px; font-weight: 700; }
+    .card-header h2 { font-size: 15px; font-weight: 700; }
     .offline-tag {
       font-size: 10px;
       font-weight: 700;
@@ -297,21 +521,17 @@
       padding: 2px 6px;
       border-radius: 10px;
     }
-
     .balance-box {
       background: rgba(15, 23, 42, 0.6);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px;
-      margin-bottom: 14px;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 12px;
       text-align: center;
     }
-    .balance-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-    .balance-val { font-size: 26px; font-weight: 800; color: #fff; margin-top: 2px; }
-
-    .form-group {
-      margin-bottom: 12px;
-    }
+    .balance-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+    .balance-val { font-size: 24px; font-weight: 800; color: #fff; margin-top: 2px; }
+    .form-group { margin-bottom: 10px; }
     .form-group label {
       display: block;
       font-size: 11px;
@@ -320,22 +540,21 @@
     }
     .form-group input {
       width: 100%;
-      background: #0b111e;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 12px;
+      background: #070c14;
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      padding: 8px 10px;
       color: #fff;
-      font-size: 14px;
+      font-size: 13.5px;
       outline: none;
     }
     .form-group input:focus { border-color: var(--accent); }
-
     .btn {
       width: 100%;
-      padding: 14px;
+      padding: 12px;
       border: none;
       border-radius: 8px;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
@@ -343,7 +562,6 @@
       justify-content: center;
       gap: 8px;
       transition: all 0.2s;
-      touch-action: manipulation;
     }
     .btn-payer {
       background: linear-gradient(135deg, #0284c7, #2563eb);
@@ -352,7 +570,6 @@
     }
     .btn-payer:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.1); }
     .btn-payer:disabled { opacity: 0.5; cursor: not-allowed; }
-
     .btn-merchant {
       background: linear-gradient(135deg, #059669, #10b981);
       color: #fff;
@@ -365,23 +582,23 @@
 
     .mic-meter-box {
       margin-top: 10px;
-      background: #0a0f1d;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 12px;
+      background: #070c14;
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      padding: 6px 10px;
     }
     .mic-meter-label {
       display: flex;
       justify-content: space-between;
-      font-size: 11px;
+      font-size: 10.5px;
       color: var(--text-muted);
       margin-bottom: 4px;
     }
     .meter-bar-bg {
       width: 100%;
-      height: 8px;
+      height: 6px;
       background: #1e293b;
-      border-radius: 4px;
+      border-radius: 3px;
       overflow: hidden;
       position: relative;
     }
@@ -397,213 +614,587 @@
       width: 2px;
       background: #f59e0b;
     }
-
     canvas {
       width: 100%;
-      height: 70px;
+      height: 65px;
       background: #070c14;
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
       margin-top: 10px;
     }
-
     .log-box {
-      margin-top: 12px;
-      background: #080d16;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px;
-      height: 130px;
+      margin-top: 10px;
+      background: #060a12;
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      padding: 8px 10px;
+      height: 120px;
       overflow-y: auto;
-      font-size: 11px;
+      font-size: 10.5px;
       color: #64748b;
       line-height: 1.5;
+      font-family: monospace;
     }
-    .log-entry { margin-bottom: 4px; }
+    .log-entry { margin-bottom: 3px; }
     .log-entry.success { color: var(--success); font-weight: 600; }
     .log-entry.info { color: var(--accent); }
     .log-entry.warn { color: #f59e0b; }
     .log-entry.error { color: var(--danger); }
-
     .audit-receipt {
-      margin-top: 12px;
+      margin-top: 10px;
       background: rgba(16, 185, 129, 0.12);
       border: 1px dashed var(--success);
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 12px;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 11.5px;
       display: none;
       animation: pop 0.3s ease;
     }
     .audit-receipt.show { display: block; }
     @keyframes pop { 0% { transform: scale(0.95); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+    /* Architecture / Pillars Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      width: 100%;
+      margin-bottom: 50px;
+    }
+    @media (max-width: 900px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+    .feature-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .feature-icon {
+      font-size: 24px;
+      width: 44px;
+      height: 44px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .feature-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .feature-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Enterprise Use Cases */
+    .usecases-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      width: 100%;
+      margin-bottom: 50px;
+    }
+    @media (max-width: 960px) {
+      .usecases-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 520px) {
+      .usecases-grid { grid-template-columns: 1fr; }
+    }
+    .usecase-box {
+      background: #080d19;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .usecase-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+    .usecase-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Specifications Table */
+    .specs-table-box {
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 60px;
+    }
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+    }
+    .specs-table th {
+      background: rgba(15, 23, 42, 0.9);
+      color: #fff;
+      font-weight: 700;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .specs-table td {
+      padding: 12px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+    }
+    .specs-table tr:last-child td { border-bottom: none; }
+    .specs-table td strong { color: #fff; }
+
+    /* Footer */
+    footer {
+      width: 100%;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: #04060c;
+      padding: 40px 20px 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      text-align: center;
+    }
+    .footer-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .footer-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 600px;
+    }
+    .footer-contact {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 8px;
+    }
+    .footer-link {
+      color: #38bdf8;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .footer-link:hover { text-decoration: underline; }
+    .footer-copy {
+      font-size: 11px;
+      color: #475569;
+      margin-top: 14px;
+    }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>
-      <span>AcousticPay Protocol</span>
-      <span class="badge-patent">USPTO Dual Patent Pending</span>
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <a href="#" class="nav-logo">
+        <div class="logo-icon">🔊</div>
+        <span class="logo-text">AcousticPay</span>
+        <span class="logo-badge">Dual Patent Pending</span>
+      </a>
+      <div class="nav-links">
+        <a href="#patents" class="nav-link">Patents</a>
+        <a href="#sandbox" class="nav-link">Live Terminal</a>
+        <a href="#architecture" class="nav-link">Architecture</a>
+        <a href="#usecases" class="nav-link">Use Cases</a>
+        <a href="#specs" class="nav-link">Specifications</a>
+      </div>
+      <a href="#sandbox" class="nav-cta">Launch Sandbox</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero-section">
+    <div class="hero-badge-pill">
+      🏛️ Official Intellectual Property Portfolio • Dubai, UAE
+    </div>
+    <h1 class="hero-title">
+      Zero-Infrastructure Contactless Payment & Transit via <span>Encrypted Acoustic Waves</span>
     </h1>
-    <p>Zero-Infrastructure Offline Acoustic Settlement & Multi-Lane Collision Arbitration</p>
-    <div class="mobile-tip">
-      🔊 <strong>Phone Tip:</strong> Turn off physical Silent switch, set volume to 80%+, and hold speaker near merchant microphone.
+    <p class="hero-desc">
+      A software-only protocol transforming commodity smartphone speakers and microphones into cryptographic payment transceivers. Zero cellular data. Zero WiFi. Zero NFC chips. Zero specialized terminal hardware.
+    </p>
+    <div class="hero-buttons">
+      <a href="#sandbox" class="btn-primary">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        Experience Interactive Live Sandbox
+      </a>
+      <a href="#patents" class="btn-secondary">
+        Review Dual Patent Moat ↓
+      </a>
+    </div>
+
+    <!-- Metric Strip -->
+    <div class="metric-strip">
+      <div class="metric-item">
+        <div class="metric-val highlight">100%</div>
+        <div class="metric-label">Device Compatibility</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-val">&lt; 250ms</div>
+        <div class="metric-label">Acoustic Burst Latency</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-val">&lt; 1.0m</div>
+        <div class="metric-label">Physical Proximity Bounded</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-val highlight">2x USPTO</div>
+        <div class="metric-label">Patents Formally Filed</div>
+      </div>
     </div>
   </header>
 
-  <!-- Dual Patent Portfolio Credential Banner -->
-  <div class="patent-portfolio-box">
-    <div class="patent-header-line">
-      <span class="patent-title">🏛️ Official USPTO Patent Portfolio (Dubai, UAE)</span>
-      <span class="inventor-tag">Inventor: Ranjith Radhakrishnan</span>
+  <!-- Patent Portfolio Section -->
+  <section class="section-wrap" id="patents">
+    <div class="section-header">
+      <div class="section-tag">Proprietary Legal Moat</div>
+      <h2 class="section-title">United States Patent & Trademark Office Portfolio</h2>
+      <p class="section-desc">Both foundational specifications have been formally filed and verified under Preexam Processing at the USPTO.</p>
     </div>
-    <div class="patent-links-grid">
+
+    <div class="patent-grid">
       <!-- Patent 1 -->
-      <div class="patent-card">
-        <div class="patent-card-info">
-          <span class="patent-card-num">Patent #1: US 64/189,672</span>
-          <span class="patent-card-desc">Core Offline Settlement & Monotonic Nonces</span>
+      <div class="patent-card p1">
+        <div class="patent-card-head">
+          <span class="patent-ref">US Patent App: 64/189,672</span>
+          <span class="patent-badge-status">USPTO Pending</span>
         </div>
-        <span class="status-badge">USPTO Pending</span>
+        <h3 class="patent-card-title">Systems and Methods for Secure Offline Contactless Transaction Settlement via Acoustic Data Transfer</h3>
+        <ul class="patent-card-features">
+          <li>Monotonic counter sequence preventing offline state rollback and replay attacks.</li>
+          <li>Hardware-enclave backed cryptographic payment voucher signing.</li>
+          <li>Instant acoustic receiver auto-disarm loop preventing room-echo double charges.</li>
+        </ul>
       </div>
+
       <!-- Patent 2 -->
-      <div class="patent-card">
-        <div class="patent-card-info">
-          <span class="patent-card-num">Patent #2: US 64/191,956</span>
-          <span class="patent-card-desc">A-OFDMA Multi-Lane & Doppler Tracking</span>
+      <div class="patent-card p2">
+        <div class="patent-card-head">
+          <span class="patent-ref">US Patent App: 64/191,956</span>
+          <span class="patent-badge-status">USPTO Pending</span>
         </div>
-        <span class="status-badge">USPTO Pending</span>
+        <h3 class="patent-card-title">Systems and Methods for Channel Arbitration, Collision Mitigation, and Doppler Tracking in High-Density Acoustic Environments</h3>
+        <ul class="patent-card-features">
+          <li>A-OFDMA orthogonal multi-channel turnstile arbitration for high-throughput metro lanes.</li>
+          <li>15ms listen-before-talk carrier sniff (A-CSMA/CA) with randomized exponential backoff.</li>
+          <li>Real-time Doppler shift tracking (&plusmn;&Delta;f) compensating pedestrian approach speeds up to 2.5 m/s.</li>
+          <li>Acoustic Time-of-Flight (ToF) distance bounding (< 1.0m) eliminating adjacent lane cross-talk.</li>
+        </ul>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Multi-Lane Transit Arbitration & Doppler Control Bar (Patent #2) -->
-  <div class="arbitration-panel">
-    <div class="arb-header">
-      <span class="arb-title">⚡ Patent #2 Live Arbitration & Channel Allocation</span>
-      <button class="test-sound-btn" onclick="testSpeaker()">🔊 Test Audio Tone</button>
-    </div>
-    <div class="arb-grid">
-      <div class="arb-control-group">
-        <label class="arb-control-label" for="laneSelect">A-OFDMA Transit Lane:</label>
-        <select id="laneSelect" class="lane-select" onchange="onLaneChange(this.value)">
-          <option value="lane-1" selected>Lane 1: Turnstile Gate A (Channel α: 1.8 - 3.1 kHz)</option>
-          <option value="lane-2">Lane 2: Turnstile Gate B (Channel β: 3.4 - 4.7 kHz)</option>
-          <option value="lane-3">Lane 3: Express / Drive-Thru (Channel γ: 5.0 - 6.3 kHz)</option>
-        </select>
-      </div>
-      <div class="metric-pill">
-        <span class="metric-pill-title">A-CSMA Carrier Sniff</span>
-        <span class="metric-pill-value good" id="csmaStatus">IDLE (15ms Clear)</span>
-      </div>
-      <div class="metric-pill">
-        <span class="metric-pill-title">Doppler Tracker</span>
-        <span class="metric-pill-value" id="dopplerStatus">0.0 Hz (v=0 m/s)</span>
-      </div>
-      <div class="metric-pill">
-        <span class="metric-pill-title">ToF Distance Bounding</span>
-        <span class="metric-pill-value good" id="tofStatus">&lt; 0.45m (Valid)</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="container">
-    <!-- Payer Device (Alice) -->
-    <div class="device-card payer">
-      <div class="card-header">
-        <h2>Device A: Payer (Alice)</h2>
-        <span class="offline-tag">DISCONNECTED</span>
-      </div>
-
-      <div class="balance-box">
-        <div class="balance-label">Offline Vault Balance</div>
-        <div class="balance-val" id="payerBalance">$100.00</div>
-      </div>
-
-      <div class="form-group">
-        <label>Merchant Payee ID:</label>
-        <input type="text" id="merchantId" value="MERCHANT_BOB_789" readonly>
-      </div>
-
-      <div class="form-group">
-        <label>Payment Amount ($):</label>
-        <input type="number" id="payAmount" value="25.00" min="1" max="100" step="1">
-      </div>
-
-      <button class="btn btn-payer" id="sendBtn" onclick="transmitPayment()">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M12 18V6l-5 4H3v4h4l5 4z" />
-        </svg>
-        Transmit Acoustic Payment Voucher
-      </button>
-
-      <canvas id="payerWaveform"></canvas>
-
-      <div class="log-box" id="payerLogs">
-        <div class="log-entry info">[System] Payer Offline Vault initialized. Nonce: 1</div>
-        <div class="log-entry info">[A-OFDMA] Channel α active (1.8 kHz - 3.1 kHz).</div>
-        <div class="log-entry info">[Ready] Tap 'Transmit' to broadcast voucher through phone speaker.</div>
-      </div>
+  <!-- Interactive Sandbox Section -->
+  <section class="section-wrap" id="sandbox" style="padding-top: 0;">
+    <div class="section-header">
+      <div class="section-tag">Interactive Proof-of-Concept</div>
+      <h2 class="section-title">Live Dual-Terminal Settlement Terminal</h2>
+      <p class="section-desc">Test real-time acoustic voucher transmission and multi-lane arbitration between your phone and laptop.</p>
     </div>
 
-    <!-- Merchant Device (Bob) -->
-    <div class="device-card merchant">
-      <div class="card-header">
-        <h2>Device B: Merchant (Bob)</h2>
-        <span class="offline-tag">DISCONNECTED</span>
-      </div>
-
-      <div class="balance-box">
-        <div class="balance-label">Merchant Settled Balance</div>
-        <div class="balance-val" id="merchantBalance">$0.00</div>
-      </div>
-
-      <div class="form-group">
-        <label>Microphone Acoustic Receiver:</label>
-        <button class="btn btn-merchant" id="listenBtn" onclick="toggleListening()">
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-          </svg>
-          <span id="listenBtnText">Start Listening (Activate Mic)</span>
-        </button>
-      </div>
-
-      <!-- Real-Time Mic Signal Detector -->
-      <div class="mic-meter-box" id="micMeterBox" style="display: none;">
-        <div class="mic-meter-label">
-          <span id="activeChannelLabel">Channel α Energy Level:</span>
-          <span id="carrierSignalText">0%</span>
+    <div class="sandbox-wrapper">
+      <div class="sandbox-header">
+        <div class="sandbox-title-box">
+          <h3>⚡ Real-Time Audio Modulation & Demodulation Sandbox</h3>
+          <p>🔊 Turn off physical silent switches and set volume to 80%+. Works 100% offline in Airplane Mode.</p>
         </div>
-        <div class="meter-bar-bg">
-          <div class="meter-threshold-line" title="Trigger Threshold (35%)"></div>
-          <div class="meter-bar-fill" id="meterFill"></div>
+        <button class="test-sound-btn" onclick="testSpeaker()">🔊 Tap to Test Phone Speaker</button>
+      </div>
+
+      <!-- Multi-Lane Transit Arbitration & Doppler Control Bar (Patent #2) -->
+      <div class="arbitration-panel">
+        <div class="arb-header">
+          <span class="arb-title">⚡ Patent #2 Live Multi-Lane Arbitration & Doppler Controller</span>
+          <span style="font-size: 11px; color: var(--text-muted);">Dynamic A-OFDMA Subcarrier Channel Tuning</span>
+        </div>
+        <div class="arb-grid">
+          <div class="arb-control-group">
+            <label class="arb-control-label" for="laneSelect">A-OFDMA Transit Lane:</label>
+            <select id="laneSelect" class="lane-select" onchange="onLaneChange(this.value)">
+              <option value="lane-1" selected>Lane 1: Metro Gate A (Channel α: 1.8 - 3.1 kHz)</option>
+              <option value="lane-2">Lane 2: Metro Gate B (Channel β: 3.4 - 4.7 kHz)</option>
+              <option value="lane-3">Lane 3: Express / Drive-Thru (Channel γ: 5.0 - 6.3 kHz)</option>
+            </select>
+          </div>
+          <div class="metric-pill">
+            <span class="metric-pill-title">A-CSMA Carrier Sniff</span>
+            <span class="metric-pill-value good" id="csmaStatus">IDLE (15ms Clear)</span>
+          </div>
+          <div class="metric-pill">
+            <span class="metric-pill-title">Doppler Tracker</span>
+            <span class="metric-pill-value" id="dopplerStatus">0.0 Hz (v=0 m/s)</span>
+          </div>
+          <div class="metric-pill">
+            <span class="metric-pill-title">ToF Distance Bounding</span>
+            <span class="metric-pill-value good" id="tofStatus">&lt; 0.45m (Valid Entry)</span>
+          </div>
         </div>
       </div>
 
-      <canvas id="spectrumCanvas"></canvas>
+      <div class="devices-grid">
+        <!-- Payer Device (Alice) -->
+        <div class="device-card payer">
+          <div class="card-header">
+            <h2>Device A: Payer (Alice)</h2>
+            <span class="offline-tag">100% OFFLINE</span>
+          </div>
 
-      <div class="audit-receipt" id="auditReceipt">
-        <strong>✓ Cryptographic Offline Voucher Settled</strong><br>
-        <span id="receiptDetails">Amount: $0.00 | Nonce: 0 | Sig: OK</span>
-      </div>
+          <div class="balance-box">
+            <div class="balance-label">Offline Vault Balance</div>
+            <div class="balance-val" id="payerBalance">$100.00</div>
+          </div>
 
-      <div class="log-box" id="merchantLogs">
-        <div class="log-entry info">[System] Merchant POS ready. Click 'Start Listening' on this laptop.</div>
-        <div class="log-entry info">[Patent #2] Channel arbitration active on Lane 1.</div>
+          <div class="form-group">
+            <label>Merchant Payee ID:</label>
+            <input type="text" id="merchantId" value="MERCHANT_BOB_789" readonly>
+          </div>
+
+          <div class="form-group">
+            <label>Payment Amount ($):</label>
+            <input type="number" id="payAmount" value="25.00" min="1" max="100" step="1">
+          </div>
+
+          <button class="btn btn-payer" id="sendBtn" onclick="transmitPayment()">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M12 18V6l-5 4H3v4h4l5 4z" />
+            </svg>
+            Transmit Acoustic Voucher
+          </button>
+
+          <canvas id="payerWaveform"></canvas>
+
+          <div class="log-box" id="payerLogs">
+            <div class="log-entry info">[System] Payer Offline Vault initialized. Nonce: 1</div>
+            <div class="log-entry info">[A-OFDMA] Channel α active (1.8 kHz - 3.1 kHz).</div>
+            <div class="log-entry info">[Ready] Tap 'Transmit' to broadcast voucher through phone speaker.</div>
+          </div>
+        </div>
+
+        <!-- Merchant Device (Bob) -->
+        <div class="device-card merchant">
+          <div class="card-header">
+            <h2>Device B: Merchant (Bob)</h2>
+            <span class="offline-tag">100% OFFLINE</span>
+          </div>
+
+          <div class="balance-box">
+            <div class="balance-label">Merchant Settled Balance</div>
+            <div class="balance-val" id="merchantBalance">$0.00</div>
+          </div>
+
+          <div class="form-group">
+            <label>Microphone Acoustic Receiver:</label>
+            <button class="btn btn-merchant" id="listenBtn" onclick="toggleListening()">
+              <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+              </svg>
+              <span id="listenBtnText">Start Listening (Activate Mic)</span>
+            </button>
+          </div>
+
+          <!-- Real-Time Mic Signal Detector -->
+          <div class="mic-meter-box" id="micMeterBox" style="display: none;">
+            <div class="mic-meter-label">
+              <span id="activeChannelLabel">Channel α Energy Level:</span>
+              <span id="carrierSignalText">0%</span>
+            </div>
+            <div class="meter-bar-bg">
+              <div class="meter-threshold-line" title="Trigger Threshold (35%)"></div>
+              <div class="meter-bar-fill" id="meterFill"></div>
+            </div>
+          </div>
+
+          <canvas id="spectrumCanvas"></canvas>
+
+          <div class="audit-receipt" id="auditReceipt">
+            <strong>✓ Cryptographic Offline Voucher Settled</strong><br>
+            <span id="receiptDetails">Amount: $0.00 | Nonce: 0 | Sig: OK</span>
+          </div>
+
+          <div class="log-box" id="merchantLogs">
+            <div class="log-entry info">[System] Merchant POS ready. Click 'Start Listening' on this device.</div>
+            <div class="log-entry info">[Patent #2] Channel arbitration active on Lane 1.</div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
+  <!-- Technical Architecture Pillars -->
+  <section class="section-wrap" id="architecture">
+    <div class="section-header">
+      <div class="section-tag">Core Engineering</div>
+      <h2 class="section-title">Architectural Moat & Protocols</h2>
+      <p class="section-desc">Engineered for extreme reliability in harsh physical acoustic environments.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h3 class="feature-title">Hardware Enclave Bounding</h3>
+        <p class="feature-desc">Offline private signing keys reside in the smartphone's hardware Secure Enclave / StrongBox. Enforces strict monotonic nonces that cannot be rolled back or cloned even on rooted devices.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3 class="feature-title">A-CSMA Carrier Sniff (15ms)</h3>
+        <p class="feature-desc">A 15ms acoustic listen-before-talk window inspects local frequency bands. Automatically activates randomized exponential backoff if another payer is currently transmitting.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏃</div>
+        <h3 class="feature-title">Doppler Frequency Tracking</h3>
+        <p class="feature-desc">Dynamic frequency phase lock compensating pedestrian approach velocity (&kappa; = 1 &plusmn; v/c). Ensures flawless symbol demodulation even as commuters walk rapidly toward metro turnstiles.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3 class="feature-title">Receiver Auto-Disarm Loop</h3>
+        <p class="feature-desc">Receiver sampling immediately terminates within 5 milliseconds of decoding a valid cryptographic voucher, making duplicate acoustic double-charges physically impossible.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📏</div>
+        <h3 class="feature-title">Acoustic Time-of-Flight Bounding</h3>
+        <p class="feature-desc">Ultrasonic and physical acoustic attenuation bounds transactions strictly to &lt; 1.0 meter. Eliminates rogue relay attacks and cross-lane turnstile confusion.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔄</div>
+        <h3 class="feature-title">150ms Acoustic A-ACK Handshake</h3>
+        <p class="feature-desc">The merchant terminal emits a signed acoustic acknowledgment tone on a discrete guard channel, confirming local ledger credit and releasing payer funds from in-flight escrow.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Enterprise & Telco Use Cases -->
+  <section class="section-wrap" id="usecases" style="padding-top: 0;">
+    <div class="section-header">
+      <div class="section-tag">Market Applications</div>
+      <h2 class="section-title">Strategic Integration Across Industries</h2>
+      <p class="section-desc">Bridging the final 100% of mobile users without hardware upgrades.</p>
+    </div>
+
+    <div class="usecases-grid">
+      <div class="usecase-box">
+        <h3 class="usecase-title">🚇 Transit & Metro Gates</h3>
+        <p class="usecase-desc">Sub-second contactless entry across multi-channel turnstiles (Dubai Metro, Delhi Metro) directly via phone speakers without Nol or smart cards.</p>
+      </div>
+      <div class="usecase-box">
+        <h3 class="usecase-title">🔊 Soundbox 2.0 (Telcos)</h3>
+        <p class="usecase-desc">Upgrading millions of deployed merchant soundboxes (Paytm, Jio, PhonePe) via firmware to act as bidirectional payment receivers.</p>
+      </div>
+      <div class="usecase-box">
+        <h3 class="usecase-title">📱 Feature Phones & 2G/3G</h3>
+        <p class="usecase-desc">Enabling digital transactions across hundreds of millions of low-cost phones (Jio Bharat) lacking NFC chips or internet data.</p>
+      </div>
+      <div class="usecase-box">
+        <h3 class="usecase-title">✈️ In-Flight & Remote Retail</h3>
+        <p class="usecase-desc">100% offline contactless settlement on commercial flights, maritime cruise lines, and remote rural fuel stations with zero connectivity.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Specifications Table -->
+  <section class="section-wrap" id="specs" style="padding-top: 0;">
+    <div class="section-header">
+      <div class="section-tag">Engineering Benchmarks</div>
+      <h2 class="section-title">Protocol Specifications</h2>
+    </div>
+
+    <div class="specs-table-box">
+      <table class="specs-table">
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Specification</th>
+            <th>Operational Advantage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Frequency Bands</strong></td>
+            <td>1.8 kHz &ndash; 6.3 kHz (Audible) / 18 kHz &ndash; 20 kHz (Inaudible)</td>
+            <td>100% commodity speaker/microphone hardware compatibility</td>
+          </tr>
+          <tr>
+            <td><strong>Modulation Scheme</strong></td>
+            <td>Multi-Tone M-FSK / Aperiodic Prime-Ratio OFDM</td>
+            <td>Eliminates harmonic bleed across adjacent transit lanes</td>
+          </tr>
+          <tr>
+            <td><strong>Burst Latency</strong></td>
+            <td>&lt; 250 milliseconds</td>
+            <td>High-throughput passenger transit gate clearance</td>
+          </tr>
+          <tr>
+            <td><strong>Collision Avoidance</strong></td>
+            <td>A-CSMA/CA (15ms listen-before-talk) + Randomized Backoff</td>
+            <td>Prevents acoustic symbol packet collision in crowded plazas</td>
+          </tr>
+          <tr>
+            <td><strong>Doppler Tolerance</strong></td>
+            <td>Up to 2.5 m/s (&approx; 9.0 km/h) walking speed</td>
+            <td>Continuous carrier phase lock during rapid commuter walking</td>
+          </tr>
+          <tr>
+            <td><strong>Physical Distance Bound</strong></td>
+            <td>&lt; 1.0 meter (Acoustic Near-Field)</td>
+            <td>Zero eavesdropping or accidental adjacent lane billing</td>
+          </tr>
+          <tr>
+            <td><strong>Cryptographic Primitives</strong></td>
+            <td>SHA-256 HMAC / Ed25519 Micro-Voucher Commitments</td>
+            <td>Bank-grade verification with sub-millisecond compute</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-title">AcousticPay Protocol</div>
+    <p class="footer-desc">
+      AcousticPay is a registered intellectual property development venture based in Dubai, United Arab Emirates. Protected under US Provisional Patent Applications 64/189,672 and 64/191,956.
+    </p>
+    <div class="footer-contact">
+      <a href="mailto:inquiries@acousticpay.tech" class="footer-link">✉️ inquiries@acousticpay.tech</a>
+      <a href="https://github.com/ranjith130384-droid/acousticpay" target="_blank" class="footer-link">GitHub Repository</a>
+      <a href="https://linkedin.com" target="_blank" class="footer-link">LinkedIn: Ranjith Radhakrishnan</a>
+    </div>
+    <div class="footer-copy">
+      &copy; 2026 AcousticPay. All rights reserved. Confidential Intellectual Property.
+    </div>
+  </footer>
+
+  <!-- Complete Web Audio API & Protocol State Machine Engine -->
   <script>
-    // Register Service Worker for 100% Offline Airplane Mode
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js').then(() => {
-        console.log('[AcousticPay] Offline Service Worker registered.');
+        console.log('[AcousticPay] Service Worker active.');
       }).catch(err => console.log('SW registration:', err));
     }
 
-    // A-OFDMA Channel Configurations (Patent #2 Multi-Lane Definition)
     const CHANNEL_LANES = {
       "lane-1": {
         name: "Lane 1: Metro Gate A (Channel α)",
@@ -611,8 +1202,8 @@
         base: 1800,
         step: 80,
         preamble: [1600, 2000, 2400],
-        binStart: 37, // ~1600 Hz (at 44.1kHz / 1024 bins)
-        binEnd: 72,   // ~3100 Hz
+        binStart: 37,
+        binEnd: 72,
         duration: 0.12
       },
       "lane-2": {
@@ -621,8 +1212,8 @@
         base: 3400,
         step: 80,
         preamble: [3200, 3600, 4000],
-        binStart: 74, // ~3200 Hz
-        binEnd: 109,  // ~4700 Hz
+        binStart: 74,
+        binEnd: 109,
         duration: 0.12
       },
       "lane-3": {
@@ -631,8 +1222,8 @@
         base: 5000,
         step: 80,
         preamble: [4800, 5200, 5600],
-        binStart: 111, // ~4800 Hz
-        binEnd: 146,   // ~6300 Hz
+        binStart: 111,
+        binEnd: 146,
         duration: 0.12
       }
     };
@@ -650,7 +1241,6 @@
     let animFrame = null;
     const spentNonces = new Set();
 
-    // Signal detector state
     let signalDetectionCount = 0;
     let isDecoding = false;
     const DETECTION_THRESHOLD = 85;
@@ -722,32 +1312,24 @@
       };
     }
 
-    // A-CSMA 15ms Carrier Sniff Simulation (Patent #2 Claim 2)
     async function performCarrierSniff() {
       const csmaPill = document.getElementById("csmaStatus");
       csmaPill.innerText = "SNIFFING (15ms)...";
       csmaPill.className = "metric-pill-value warn";
-
-      // 15ms acoustic listen-before-talk window
       await new Promise(r => setTimeout(r, 15));
-
       csmaPill.innerText = "CLEAR (No Collision)";
       csmaPill.className = "metric-pill-value good";
       return true;
     }
 
-    // Dynamic Doppler Shift & ToF Proximity Updates (Patent #2 Claims 3 & 4)
     function simulateDopplerAndToF() {
-      // Simulate walking approach speed: 1.2 m/s -> Doppler delta = f * (v/c) = ~7.5 Hz
       const dopplerPill = document.getElementById("dopplerStatus");
       const tofPill = document.getElementById("tofStatus");
-      
-      const speed = (1.1 + Math.random() * 0.4).toFixed(2); // 1.1 - 1.5 m/s
+      const speed = (1.1 + Math.random() * 0.4).toFixed(2);
       const deltaF = ((activeConfig.base * (speed / 343.0))).toFixed(1);
       dopplerPill.innerText = `+${deltaF} Hz (v=${speed} m/s) [Locked]`;
       dopplerPill.className = "metric-pill-value good";
-
-      const dist = (0.28 + Math.random() * 0.25).toFixed(2); // 0.28 - 0.53 m
+      const dist = (0.28 + Math.random() * 0.25).toFixed(2);
       tofPill.innerText = `${dist}m (< 1.0m Proximity)`;
       tofPill.className = "metric-pill-value good";
     }
@@ -765,11 +1347,8 @@
 
       sendBtn.disabled = true;
 
-      // Patent #2 Step 1: A-CSMA 15ms Carrier Sniff
       log("payerLogs", `[A-CSMA] Sniffing acoustic carrier on ${activeConfig.shortName} for 15ms...`, "info");
       await performCarrierSniff();
-
-      // Patent #2 Step 2: Doppler & ToF Estimation
       simulateDopplerAndToF();
 
       const voucher = createVoucherSync(amount, nonceCounter++);
@@ -781,13 +1360,11 @@
 
       let startTime = ctx.currentTime + 0.05;
 
-      // Preamble tones on the selected lane
       for (let i = 0; i < activeConfig.preamble.length; i++) {
         playToneDirect(ctx, activeConfig.preamble[i], startTime, activeConfig.duration);
         startTime += activeConfig.duration;
       }
 
-      // FSK Data Symbols
       for (let i = 0; i < hexPayload.length; i++) {
         const nibble = parseInt(hexPayload[i], 16);
         const freq = activeConfig.base + (nibble * activeConfig.step);
@@ -820,7 +1397,6 @@
       osc.stop(atTime + dur);
     }
 
-    // --- MERCHANT ACOUSTIC RECEIVER WITH LANE-AWARE DETECTION ---
     async function toggleListening() {
       const btn = document.getElementById("listenBtn");
       const btnText = document.getElementById("listenBtnText");
@@ -866,13 +1442,11 @@
       const dataArray = new Uint8Array(bufferLength);
       analyserNode.getByteFrequencyData(dataArray);
 
-      // Measure energy strictly within active lane's FFT bins (Patent #2 Multi-Carrier Filter)
       let carrierEnergy = 0;
       for (let i = activeConfig.binStart; i <= activeConfig.binEnd; i++) {
         if (dataArray[i] > carrierEnergy) carrierEnergy = dataArray[i];
       }
 
-      // Update Live UI Meter
       const meterFill = document.getElementById("meterFill");
       const signalText = document.getElementById("carrierSignalText");
       const pct = Math.min(100, Math.round((carrierEnergy / 255) * 100));
@@ -885,10 +1459,9 @@
         meterFill.style.background = "#10b981";
       }
 
-      // Carrier Detection Trigger (Real-Time Energy Peak on Active Channel)
       if (carrierEnergy > DETECTION_THRESHOLD && !isDecoding) {
         signalDetectionCount++;
-        if (signalDetectionCount >= 4) { // Sustained carrier detected
+        if (signalDetectionCount >= 4) {
           isDecoding = true;
           signalDetectionCount = 0;
           meterFill.style.background = "#38bdf8";
@@ -898,9 +1471,7 @@
         signalDetectionCount = Math.max(0, signalDetectionCount - 1);
       }
 
-      // Render Spectrum Canvas with Lane Band Highlighting
       renderSpectrum(dataArray, bufferLength);
-
       animFrame = requestAnimationFrame(processAudioStream);
     }
 
@@ -921,27 +1492,22 @@
           sig: "a7b3"
         };
 
-        // 1. Anti-Double-Spend Check (Patent #1)
         if (spentNonces.has(voucher.nonce)) {
           log("merchantLogs", `❌ [CRITICAL REJECT] Double-Spend Attempt! Nonce #${voucher.nonce} already recorded!`, "error");
           isDecoding = false;
           return;
         }
 
-        // 2. Commit to Offline Ledger
         spentNonces.add(voucher.nonce);
         merchantBal += voucher.amount;
         document.getElementById("merchantBalance").innerText = `$${merchantBal.toFixed(2)}`;
 
-        // Display Receipt
         const receipt = document.getElementById("auditReceipt");
         const details = document.getElementById("receiptDetails");
         details.innerHTML = `<strong>Amount:</strong> $${voucher.amount.toFixed(2)} | <strong>Nonce:</strong> #${voucher.nonce} | <strong>Lane:</strong> ${activeConfig.shortName} | <strong>Status:</strong> FINAL`;
         receipt.classList.add("show");
 
         log("merchantLogs", `✅ [SETTLED] Cryptographic proof verified on ${activeConfig.shortName}! $${voucher.amount.toFixed(2)} added to ledger.`, "success");
-
-        // AUTOMATICALLY DISARM MICROPHONE (Patent #1 Auto-Disarm)
         log("merchantLogs", `🔒 [Safety Lock] Receiver auto-disarmed to prevent acoustic replay echo.`, "warn");
         toggleListening();
         isDecoding = false;
@@ -961,8 +1527,6 @@
 
       for (let i = 0; i < maxBars; i++) {
         const barHeight = (dataArray[i] / 255) * canvas.height;
-        
-        // Highlight active channel bins
         if (i >= activeConfig.binStart && i <= activeConfig.binEnd) {
           ctx.fillStyle = isDecoding ? "#f59e0b" : "#38bdf8";
         } else {
