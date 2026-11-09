@@ -810,16 +810,10 @@
     /* Enterprise Use Cases */
     .usecases-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 16px;
       width: 100%;
       margin-bottom: 50px;
-    }
-    @media (max-width: 960px) {
-      .usecases-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 520px) {
-      .usecases-grid { grid-template-columns: 1fr; }
     }
     .usecase-box {
       background: #080d19;
@@ -1283,20 +1277,44 @@
 
     <div class="usecases-grid">
       <div class="usecase-box">
-        <h3 class="usecase-title">🚇 Global Mass Transit & Rail</h3>
-        <p class="usecase-desc">Sub-second passenger throughput across international transit networks (London, New York, Tokyo, Paris, Singapore) directly via phone speakers with zero physical smartcards or NFC chips.</p>
+        <h3 class="usecase-title">🚇 1. Mass Transit & Subway Gates</h3>
+        <p class="usecase-desc">Walk-through sub-second commuter throughput across underground subways (London, New York, Tokyo, Dubai) with zero cellular reception, zero plastic smartcards, and zero queuing.</p>
       </div>
       <div class="usecase-box">
-        <h3 class="usecase-title">🔊 POS Terminals & Soundboxes</h3>
-        <p class="usecase-desc">Universal firmware upgrade converting millions of deployed merchant point-of-sale terminals, audio soundboxes, and vendor phones into bidirectional offline acoustic settlement receivers.</p>
+        <h3 class="usecase-title">📱 2. Financial Inclusion (4.2B People)</h3>
+        <p class="usecase-desc">Unlocking contactless payments for 4.2+ billion low-cost smartphones and $15 feature phones (KaiOS, 2G/3G) lacking NFC chips across emerging economies worldwide.</p>
       </div>
       <div class="usecase-box">
-        <h3 class="usecase-title">📱 Financial Inclusion (1.4B+ Devices)</h3>
-        <p class="usecase-desc">Unlocking secure contactless digital payments across 1.4+ billion low-cost smartphones and 2G/3G/4G feature phones lacking NFC chips across emerging and rural markets globally.</p>
+        <h3 class="usecase-title">⚡ 3. Disaster Continuity & Offline CBDC</h3>
+        <p class="usecase-desc">National sovereign resilience: Enables peer-to-peer commerce and Central Bank Digital Currency (CBDC) transfers during total power blackouts and undersea fiber cuts.</p>
       </div>
       <div class="usecase-box">
-        <h3 class="usecase-title">✈️ In-Flight, Maritime & Remote Retail</h3>
-        <p class="usecase-desc">100% offline contactless settlement on commercial flights at 35,000 feet, maritime cruise vessels, underground mining complexes, and disaster relief zones with zero connectivity.</p>
+        <h3 class="usecase-title">✈️ 4. In-Flight (38,000 Ft) & Maritime</h3>
+        <p class="usecase-desc">100% offline contactless purchases on passenger flights at 38,000 feet, transoceanic cruise ships, and remote oil rigs without expensive passenger satellite Wi-Fi fees.</p>
+      </div>
+      <div class="usecase-box">
+        <h3 class="usecase-title">🏟️ 5. Jammed Stadiums & Mega-Arenas</h3>
+        <p class="usecase-desc">Instant concession and ticket clearance in 80,000-seat stadiums where cellular networks get jammed, clearing 50,000 fans in 20 minutes without network load.</p>
+      </div>
+      <div class="usecase-box">
+        <h3 class="usecase-title">🔊 6. POS Soundbox Modernization</h3>
+        <p class="usecase-desc">Over-the-air firmware upgrade converting 50+ million deployed audio merchant soundboxes into bidirectional contactless payment readers with zero hardware manufacturing cost.</p>
+      </div>
+      <div class="usecase-box">
+        <h3 class="usecase-title">🚗 7. Drive-Thru & Parking Barriers</h3>
+        <p class="usecase-desc">Hands-free car-to-booth payment: Vehicle or phone speaker transmits acoustic voucher to the drive-thru mic. No reaching out of windows, no card skimming, no glare.</p>
+      </div>
+      <div class="usecase-box">
+        <h3 class="usecase-title">🔌 8. Autonomous EV Charging Plazas</h3>
+        <p class="usecase-desc">Vandal-proof, screen-free EV charging pedestals authenticate drivers and start metering via a 200ms chirp. Zero physical card reader corrosion or cellular dead zones.</p>
+      </div>
+      <div class="usecase-box">
+        <h3 class="usecase-title">🏥 9. Sterile Healthcare & ICU Billing</h3>
+        <p class="usecase-desc">Completely touch-free contactless payment across isolation glass and surgical wards, eliminating bacterial transmission from PIN pads, dirty cash, and touchscreens.</p>
+      </div>
+      <div class="usecase-box">
+        <h3 class="usecase-title">⛏️ 10. Deep Mining & Bunker Complexes</h3>
+        <p class="usecase-desc">Reliable transaction settlement 1,000 meters underground in solid-rock Faraday cage environments where RF radio waves, GPS, and cellular signals cannot physically penetrate.</p>
       </div>
     </div>
   </section>
