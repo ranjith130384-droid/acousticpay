@@ -1404,7 +1404,7 @@
   <!-- Complete Web Audio API & Protocol State Machine Engine -->
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js?v=4').then(() => {
+      navigator.serviceWorker.register('/sw.js?v=5').then(() => {
         console.log('[AcousticPay] Service Worker active (v4).');
       }).catch(err => console.log('SW registration:', err));
     }
@@ -1453,11 +1453,23 @@
     let micStream = null;
     let analyserNode = null;
     let animFrame = null;
-    const spentNonces = new Set();
+    let savedNonces = [];
+    try { savedNonces = JSON.parse(localStorage.getItem('acoustic_spent_nonces') || '[]'); } catch (e) {}
+    const spentNonces = new Set(savedNonces);
+
+    let screenWakeLock = null;
+    async function requestWakeLock() {
+      if ('wakeLock' in navigator) {
+        try { screenWakeLock = await navigator.wakeLock.request('screen'); } catch (e) {}
+      }
+    }
+    function releaseWakeLock() {
+      if (screenWakeLock) { screenWakeLock.release().catch(() => {}); screenWakeLock = null; }
+    }
 
     let signalDetectionCount = 0;
     let isDecoding = false;
-    const DETECTION_THRESHOLD = 85;
+    const DETECTION_THRESHOLD = 70;
 
     function getOrInitAudioContext() {
       const AudioContextClass = window.AudioContext || window.webkitAudioContext;
@@ -1498,6 +1510,7 @@
       payerBal = 100.0;
       merchantBal = 0.0;
       spentNonces.clear();
+      try { localStorage.removeItem('acoustic_spent_nonces'); } catch (e) {}
       nonceCounter = 1;
       inFlightEscrow = null;
       if (aackTimeoutId) clearTimeout(aackTimeoutId);
@@ -1647,7 +1660,7 @@
         if (aackHandled || inFlightEscrow === null) return;
         aackHandled = true;
         rollbackEscrow("⚠️ [HANDSHAKE TIMEOUT] No Merchant Acoustic ACK heard. Receiver offline or blocked. Balance 100% restored ($0 deducted)!");
-      }, 2800);
+      }, 4200);
 
       // Attempt to listen via microphone for physical return tone from merchant device
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -1744,6 +1757,7 @@
         meterBox.style.display = "none";
         if (micStream) micStream.getTracks().forEach(t => t.stop());
         if (animFrame) cancelAnimationFrame(animFrame);
+        releaseWakeLock();
         log("merchantLogs", "Microphone receiver disarmed.", "warn");
       } else {
         try {
@@ -1763,6 +1777,7 @@
           meterBox.style.display = "block";
           log("merchantLogs", `Microphone actively filtering for ${activeConfig.shortName} (${activeConfig.base} Hz band)...`, "success");
 
+          requestWakeLock();
           processAudioStream();
         } catch (err) {
           log("merchantLogs", `Microphone Error: ${err.message}`, "error");
@@ -1796,7 +1811,7 @@
 
       if (carrierEnergy > DETECTION_THRESHOLD && !isDecoding) {
         signalDetectionCount++;
-        if (signalDetectionCount >= 4) {
+        if (signalDetectionCount >= 3) {
           isDecoding = true;
           signalDetectionCount = 0;
           meterFill.style.background = "#38bdf8";
