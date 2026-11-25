@@ -1,8 +1,10 @@
 // Service Worker: Network-First with Offline Airplane Mode Fallback
-const CACHE_NAME = 'acoustic-pay-v6';
+const CACHE_NAME = 'acoustic-pay-v7';
 const ASSETS = [
   '/',
-  '/index.html'
+  '/index.html',
+  '/acoustic_agent_worker.js',
+  '/python_agent_swarm.py'
 ];
 
 self.addEventListener('install', (event) => {
