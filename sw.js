@@ -1,5 +1,5 @@
 // Service Worker: Network-First with Offline Airplane Mode Fallback
-const CACHE_NAME = 'acoustic-pay-v5';
+const CACHE_NAME = 'acoustic-pay-v6';
 const ASSETS = [
   '/',
   '/index.html'
