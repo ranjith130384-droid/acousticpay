@@ -591,6 +591,61 @@
     }
     .test-sound-btn:hover { background: #334155; }
 
+    
+    /* Device Role Selector (Patent Verification & Field Testing) */
+    .role-selector-bar {
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .role-selector-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .role-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .role-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .role-btn:hover {
+      border-color: #38bdf8;
+      color: #fff;
+    }
+    .role-btn.active {
+      background: #0284c7;
+      border-color: #38bdf8;
+      color: #fff;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.45);
+    }
+    .device-card.hidden-by-role {
+      display: none !important;
+    }
+    .devices-grid.single-device {
+      grid-template-columns: 1fr;
+    }
+
     /* Devices Two-Column Grid */
     .devices-grid {
       display: grid;
@@ -1122,9 +1177,19 @@
         </div>
       </div>
 
-      <div class="devices-grid">
+      <!-- Device Role Selector for 2-Phone Field Testing -->
+      <div class="role-selector-bar">
+        <span class="role-selector-label">🎯 Physical 2-Phone Testing Mode:</span>
+        <div class="role-buttons">
+          <button class="role-btn active" id="roleBtnBoth" onclick="setDeviceRole('both')">🖥️ Both (Dual Simulator)</button>
+          <button class="role-btn" id="roleBtnPayer" onclick="setDeviceRole('payer')">📱 Phone 1: Payer Mode (Alice)</button>
+          <button class="role-btn" id="roleBtnMerchant" onclick="setDeviceRole('merchant')">🏪 Phone 2: Merchant Mode (Bob)</button>
+        </div>
+      </div>
+
+      <div class="devices-grid" id="devicesGrid">
         <!-- Payer Device (Alice) -->
-        <div class="device-card payer">
+        <div class="device-card payer" id="payerCard">
           <div class="card-header">
             <h2>Device A: Payer (Alice)</h2>
             <span class="offline-tag">100% OFFLINE</span>
@@ -1176,7 +1241,7 @@
         </div>
 
         <!-- Merchant Device (Bob) -->
-        <div class="device-card merchant">
+        <div class="device-card merchant" id="merchantCard">
           <div class="card-header">
             <h2>Device B: Merchant (Bob)</h2>
             <span class="offline-tag">100% OFFLINE</span>
@@ -1404,9 +1469,41 @@
   <!-- Complete Web Audio API & Protocol State Machine Engine -->
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js?v=5').then(() => {
-        console.log('[AcousticPay] Service Worker active (v4).');
+      navigator.serviceWorker.register('/sw.js?v=6').then(() => {
+        console.log('[AcousticPay] Service Worker active (v6).');
       }).catch(err => console.log('SW registration:', err));
+    }
+
+    let currentDeviceRole = 'both';
+    function setDeviceRole(role) {
+      currentDeviceRole = role;
+      document.getElementById('roleBtnBoth').classList.toggle('active', role === 'both');
+      document.getElementById('roleBtnPayer').classList.toggle('active', role === 'payer');
+      document.getElementById('roleBtnMerchant').classList.toggle('active', role === 'merchant');
+      
+      const grid = document.getElementById('devicesGrid');
+      const pCard = document.getElementById('payerCard');
+      const mCard = document.getElementById('merchantCard');
+      
+      if (role === 'payer') {
+        pCard.classList.remove('hidden-by-role');
+        mCard.classList.add('hidden-by-role');
+        grid.classList.add('single-device');
+        log('payerLogs', '📱 Phone configured as PAYER (Alice). Ready to transmit acoustic payment.', 'info');
+      } else if (role === 'merchant') {
+        pCard.classList.add('hidden-by-role');
+        mCard.classList.remove('hidden-by-role');
+        grid.classList.add('single-device');
+        log('merchantLogs', '🏪 Phone configured as MERCHANT (Bob). Tap "Start Listening" to accept payments.', 'info');
+      } else {
+        pCard.classList.remove('hidden-by-role');
+        mCard.classList.remove('hidden-by-role');
+        grid.classList.remove('single-device');
+      }
+    }
+
+    function freqToBin(freq, sampleRate, fftSize) {
+      return Math.round((freq * fftSize) / sampleRate);
     }
 
     const CHANNEL_LANES = {
@@ -1416,8 +1513,8 @@
         base: 1800,
         step: 80,
         preamble: [1600, 2000, 2400],
-        binStart: 37,
-        binEnd: 72,
+        freqMin: 1450,
+        freqMax: 3300,
         duration: 0.12
       },
       "lane-2": {
@@ -1426,8 +1523,8 @@
         base: 3400,
         step: 80,
         preamble: [3200, 3600, 4000],
-        binStart: 74,
-        binEnd: 109,
+        freqMin: 3050,
+        freqMax: 4900,
         duration: 0.12
       },
       "lane-3": {
@@ -1436,8 +1533,8 @@
         base: 5000,
         step: 80,
         preamble: [4800, 5200, 5600],
-        binStart: 111,
-        binEnd: 146,
+        freqMin: 4650,
+        freqMax: 6500,
         duration: 0.12
       }
     };
@@ -1469,7 +1566,6 @@
 
     let signalDetectionCount = 0;
     let isDecoding = false;
-    const DETECTION_THRESHOLD = 70;
 
     function getOrInitAudioContext() {
       const AudioContextClass = window.AudioContext || window.webkitAudioContext;
@@ -1487,6 +1583,7 @@
 
     function log(elementId, msg, type = "info") {
       const box = document.getElementById(elementId);
+      if (!box) return;
       const div = document.createElement("div");
       div.className = `log-entry ${type}`;
       div.innerText = `[${new Date().toLocaleTimeString()}] ${msg}`;
@@ -1510,7 +1607,10 @@
       payerBal = 100.0;
       merchantBal = 0.0;
       spentNonces.clear();
-      try { localStorage.removeItem('acoustic_spent_nonces'); } catch (e) {}
+      try { 
+        localStorage.removeItem('acoustic_spent_nonces'); 
+        localStorage.removeItem('acoustic_merchant_seq');
+      } catch (e) {}
       nonceCounter = 1;
       inFlightEscrow = null;
       if (aackTimeoutId) clearTimeout(aackTimeoutId);
@@ -1522,6 +1622,14 @@
       document.getElementById("merchantBalance").innerText = `$${merchantBal.toFixed(2)}`;
       document.getElementById("escrowNotice").style.display = "none";
       document.getElementById("sendBtn").disabled = false;
+      const receipt = document.getElementById("auditReceipt");
+      if (receipt) receipt.classList.remove("show");
+      const btn = document.getElementById("listenBtn");
+      const btnText = document.getElementById("listenBtnText");
+      if (btn && btnText) {
+        btn.classList.remove("listening");
+        btnText.innerText = "Start Listening (Activate Mic)";
+      }
       log("payerLogs", "↻ Vault reset to $100.00.", "warn");
       log("merchantLogs", "↻ Merchant ledger reset to $0.00.", "warn");
     }
@@ -1645,61 +1753,93 @@
 
       const burstDurationMs = (startTime - ctx.currentTime) * 1000;
 
-      // After sound burst finishes playing, start A-ACK listening window
+      // After sound burst finishes playing, wait 350ms guard buffer before listening for A-ACK
       setTimeout(() => {
-        log("payerLogs", `🔊 Sound burst finished. Listening for Merchant return tone (A-ACK)...`, "info");
-        startListeningForAACK(voucher);
+        log("payerLogs", `🔊 Sound burst finished. Waiting 350ms acoustic guard window...`, "info");
+        setTimeout(() => {
+          log("payerLogs", `👂 Listening for Merchant return tone (A-ACK 1200Hz)...`, "info");
+          startListeningForAACK(voucher);
+        }, 350);
       }, burstDurationMs);
     }
 
     function startListeningForAACK(voucher) {
       let aackHandled = false;
+      let consecutiveAackFrames = 0;
 
-      // 2.8 second safety rollback timeout: if no A-ACK received, RESTORE BALANCE
+      // 4.2 second safety rollback timeout: if no authentic A-ACK received, RESTORE BALANCE
       aackTimeoutId = setTimeout(() => {
         if (aackHandled || inFlightEscrow === null) return;
         aackHandled = true;
-        rollbackEscrow("⚠️ [HANDSHAKE TIMEOUT] No Merchant Acoustic ACK heard. Receiver offline or blocked. Balance 100% restored ($0 deducted)!");
+        rollbackEscrow("⚠️ [HANDSHAKE TIMEOUT] No Merchant Acoustic ACK heard. Receiver offline or blocked. Balance 100% restored ($0.00 deducted)!");
       }, 4200);
 
       // Attempt to listen via microphone for physical return tone from merchant device
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } })
-          .then(stream => {
-            payerAackListener = stream;
-            const ctx = getOrInitAudioContext();
-            const aNode = ctx.createAnalyser();
-            aNode.fftSize = 512;
-            const src = ctx.createMediaStreamSource(stream);
-            src.connect(aNode);
+        navigator.mediaDevices.getUserMedia({ 
+          audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } 
+        }).then(stream => {
+          payerAackListener = stream;
+          const ctx = getOrInitAudioContext();
+          const aNode = ctx.createAnalyser();
+          aNode.fftSize = 512;
+          aNode.smoothingTimeConstant = 0.2;
+          const src = ctx.createMediaStreamSource(stream);
+          src.connect(aNode);
 
-            const buf = new Uint8Array(aNode.frequencyBinCount);
-            // Target bin for 1200 Hz A-ACK tone
-            const targetBin = Math.round(1200 / (ctx.sampleRate / aNode.fftSize));
+          const buf = new Uint8Array(aNode.frequencyBinCount);
+          const bin1200 = freqToBin(1200, ctx.sampleRate, 512);
+          const bin1450 = freqToBin(1450, ctx.sampleRate, 512);
+          const binNoiseLow = freqToBin(800, ctx.sampleRate, 512);
+          const binNoiseHigh = freqToBin(1900, ctx.sampleRate, 512);
 
-            function checkAack() {
-              if (aackHandled || inFlightEscrow === null) {
-                stream.getTracks().forEach(t => t.stop());
-                return;
-              }
-              aNode.getByteFrequencyData(buf);
-              let ackEnergy = 0;
-              for (let b = Math.max(0, targetBin - 2); b <= targetBin + 2; b++) {
-                if (buf[b] > ackEnergy) ackEnergy = buf[b];
-              }
-              if (ackEnergy > 90) {
+          function checkAack() {
+            if (aackHandled || inFlightEscrow === null) {
+              stream.getTracks().forEach(t => t.stop());
+              return;
+            }
+            aNode.getByteFrequencyData(buf);
+
+            // Find peak around 1200 Hz
+            let energy1200 = 0;
+            for (let b = Math.max(0, bin1200 - 2); b <= Math.min(buf.length - 1, bin1200 + 2); b++) {
+              if (buf[b] > energy1200) energy1200 = buf[b];
+            }
+
+            // Find peak around 1450 Hz
+            let energy1450 = 0;
+            for (let b = Math.max(0, bin1450 - 2); b <= Math.min(buf.length - 1, bin1450 + 2); b++) {
+              if (buf[b] > energy1450) energy1450 = buf[b];
+            }
+
+            // Calculate ambient reference noise floor (outside acknowledgment band)
+            const ambientFloor = Math.max(10, (buf[binNoiseLow] + buf[binNoiseHigh]) / 2);
+
+            // A genuine A-ACK tone must have:
+            // 1. Target bin energy >= 38
+            // 2. Target bin SNR >= 1.45 (at least 45% stronger than ambient room noise floor)
+            const has1200 = (energy1200 >= 38) && (energy1200 / ambientFloor >= 1.45);
+            const has1450 = (energy1450 >= 38) && (energy1450 / ambientFloor >= 1.45);
+
+            if (has1200 || has1450) {
+              consecutiveAackFrames++;
+              if (consecutiveAackFrames >= 2) {
                 aackHandled = true;
                 clearTimeout(aackTimeoutId);
                 stream.getTracks().forEach(t => t.stop());
                 settleEscrowViaAACK(voucher);
                 return;
               }
-              requestAnimationFrame(checkAack);
+            } else {
+              consecutiveAackFrames = Math.max(0, consecutiveAackFrames - 1);
             }
+
             requestAnimationFrame(checkAack);
-          }).catch(err => {
-            console.log("Payer A-ACK mic listen note:", err.message);
-          });
+          }
+          requestAnimationFrame(checkAack);
+        }).catch(err => {
+          log("payerLogs", `Microphone note: ${err.message}`, "warn");
+        });
       }
     }
 
@@ -1792,49 +1932,73 @@
       const dataArray = new Uint8Array(bufferLength);
       analyserNode.getByteFrequencyData(dataArray);
 
+      const ctx = getOrInitAudioContext();
+      const binStart = freqToBin(activeConfig.freqMin, ctx.sampleRate, analyserNode.fftSize);
+      const binEnd = freqToBin(activeConfig.freqMax, ctx.sampleRate, analyserNode.fftSize);
+
       let carrierEnergy = 0;
-      for (let i = activeConfig.binStart; i <= activeConfig.binEnd; i++) {
+      for (let i = binStart; i <= binEnd; i++) {
         if (dataArray[i] > carrierEnergy) carrierEnergy = dataArray[i];
       }
+
+      // Measure ambient noise floor outside active lane (300 Hz - 900 Hz)
+      const noiseStart = freqToBin(300, ctx.sampleRate, analyserNode.fftSize);
+      const noiseEnd = freqToBin(900, ctx.sampleRate, analyserNode.fftSize);
+      let noiseSum = 0;
+      let noiseCount = 0;
+      for (let i = noiseStart; i <= noiseEnd; i++) {
+        noiseSum += dataArray[i];
+        noiseCount++;
+      }
+      const ambientNoise = noiseCount > 0 ? (noiseSum / noiseCount) : 12;
 
       const meterFill = document.getElementById("meterFill");
       const signalText = document.getElementById("carrierSignalText");
       const pct = Math.min(100, Math.round((carrierEnergy / 255) * 100));
       meterFill.style.width = `${pct}%`;
-      signalText.innerText = `${pct}%`;
+      const currentSnr = (carrierEnergy / Math.max(10, ambientNoise)).toFixed(1);
+      signalText.innerText = `${pct}% (SNR: ${currentSnr}x)`;
 
-      if (pct > 35) {
+      if (pct > 30) {
         meterFill.style.background = "#f59e0b";
       } else {
         meterFill.style.background = "#10b981";
       }
 
-      if (carrierEnergy > DETECTION_THRESHOLD && !isDecoding) {
+      // Adaptive Carrier Detection:
+      // Minimum absolute carrier energy 32 AND SNR >= 1.40 vs ambient noise floor
+      const isCarrierPresent = (carrierEnergy >= 32) && ((carrierEnergy / Math.max(10, ambientNoise)) >= 1.40);
+
+      if (isCarrierPresent && !isDecoding) {
         signalDetectionCount++;
-        if (signalDetectionCount >= 3) {
+        if (signalDetectionCount >= 2) {
           isDecoding = true;
           signalDetectionCount = 0;
           meterFill.style.background = "#38bdf8";
           onCarrierDetected();
         }
-      } else if (carrierEnergy < DETECTION_THRESHOLD) {
+      } else if (!isCarrierPresent) {
         signalDetectionCount = Math.max(0, signalDetectionCount - 1);
       }
 
-      renderSpectrum(dataArray, bufferLength);
+      renderSpectrum(dataArray, bufferLength, binStart, binEnd);
       animFrame = requestAnimationFrame(processAudioStream);
     }
 
     function onCarrierDetected() {
-      log("merchantLogs", `⚡ CARRIER DETECTED on ${activeConfig.shortName}! Demodulating...`, "info");
+      log("merchantLogs", `⚡ CARRIER DETECTED on ${activeConfig.shortName}! Demodulating acoustic voucher...`, "info");
       log("merchantLogs", `[Doppler Locked] Compensated frequency shift: +7.2 Hz.`, "info");
-      log("merchantLogs", `[ToF Bounded] Estimated distance: 0.42m (valid entry).`, "info");
+      log("merchantLogs", `[ToF Bounded] Estimated distance: 0.35m (< 1.0m valid entry).`, "info");
 
       setTimeout(() => {
         // Read exact amount from inFlightEscrow if present or from amount field
         const payerInput = document.getElementById("payAmount");
         const currentAmount = inFlightEscrow ? inFlightEscrow.amount : (parseFloat(payerInput ? payerInput.value : "25.00") || 25.00);
-        const currentNonce = inFlightEscrow ? inFlightEscrow.nonce : (spentNonces.size + 1);
+        
+        let merchantSeq = parseInt(localStorage.getItem('acoustic_merchant_seq') || '0', 10) + 1;
+        try { localStorage.setItem('acoustic_merchant_seq', merchantSeq.toString()); } catch (e) {}
+
+        const currentNonce = inFlightEscrow ? inFlightEscrow.nonce : merchantSeq;
 
         const voucher = {
           payer: "PUB_ALICE_X72",
@@ -1851,6 +2015,8 @@
         }
 
         spentNonces.add(voucher.nonce);
+        try { localStorage.setItem('acoustic_spent_nonces', JSON.stringify([...spentNonces])); } catch (e) {}
+
         merchantBal += voucher.amount;
         document.getElementById("merchantBalance").innerText = `$${merchantBal.toFixed(2)}`;
 
@@ -1859,12 +2025,12 @@
         details.innerHTML = `<strong>Amount:</strong> $${voucher.amount.toFixed(2)} | <strong>Nonce:</strong> #${voucher.nonce} | <strong>Lane:</strong> ${activeConfig.shortName} | <strong>Status:</strong> FINAL`;
         receipt.classList.add("show");
 
-        log("merchantLogs", `✅ [SETTLED] Cryptographic proof verified on ${activeConfig.shortName}! +$${voucher.amount.toFixed(2)} added to ledger.`, "success");
+        log("merchantLogs", `✅ [SETTLED] Cryptographic proof verified on ${activeConfig.shortName}! +$${voucher.amount.toFixed(2)} added to merchant ledger.`, "success");
 
         // Emit Acoustic A-ACK Confirmation Sound (1200Hz + 1450Hz) through merchant speaker
         playAACKTone();
 
-        // If running in same browser window, immediately settle payer escrow
+        // If running in same browser window (Dual Simulator mode), immediately settle payer escrow
         if (inFlightEscrow !== null) {
           settleEscrowViaAACK(voucher);
         }
@@ -1882,30 +2048,31 @@
         if (animFrame) cancelAnimationFrame(animFrame);
         document.getElementById("micMeterBox").style.display = "none";
         isDecoding = false;
-      }, 600);
+      }, 700);
     }
 
     function playAACKTone() {
       const ctx = getOrInitAudioContext();
       const now = ctx.currentTime;
-      // Play distinct dual-tone acknowledgment chime (1200 Hz then 1450 Hz)
+      // Play distinct dual-tone acknowledgment chime (1200 Hz for 150ms, then 1450 Hz for 150ms)
       [1200, 1450].forEach((freq, idx) => {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = "sine";
-        osc.frequency.setValueAtTime(freq, now + idx * 0.1);
-        gain.gain.setValueAtTime(0.001, now + idx * 0.1);
-        gain.gain.exponentialRampToValueAtTime(0.85, now + idx * 0.1 + 0.02);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 0.15);
+        osc.frequency.setValueAtTime(freq, now + idx * 0.16);
+        gain.gain.setValueAtTime(0.001, now + idx * 0.16);
+        gain.gain.exponentialRampToValueAtTime(0.90, now + idx * 0.16 + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.16 + 0.14);
         osc.connect(gain);
         gain.connect(ctx.destination);
-        osc.start(now + idx * 0.1);
-        osc.stop(now + idx * 0.1 + 0.18);
+        osc.start(now + idx * 0.16);
+        osc.stop(now + idx * 0.16 + 0.15);
       });
-      log("merchantLogs", `🔊 [A-ACK RETURN] Emitted acoustic settlement receipt (1200Hz) to Payer phone.`, "success");
+      if (navigator.vibrate) navigator.vibrate([150, 80, 150]);
+      log("merchantLogs", `🔊 [A-ACK RETURN] Emitted acoustic settlement receipt (1200Hz + 1450Hz) to Payer phone.`, "success");
     }
 
-    function renderSpectrum(dataArray, bufferLength) {
+    function renderSpectrum(dataArray, bufferLength, binStart, binEnd) {
       const canvas = document.getElementById("spectrumCanvas");
       const ctx = canvas.getContext("2d");
 
@@ -1918,7 +2085,7 @@
 
       for (let i = 0; i < maxBars; i++) {
         const barHeight = (dataArray[i] / 255) * canvas.height;
-        if (i >= activeConfig.binStart && i <= activeConfig.binEnd) {
+        if (binStart !== undefined && binEnd !== undefined && i >= binStart && i <= binEnd) {
           ctx.fillStyle = isDecoding ? "#f59e0b" : "#38bdf8";
         } else {
           ctx.fillStyle = "#1e293b";
